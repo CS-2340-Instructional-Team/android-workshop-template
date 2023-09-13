@@ -99,7 +99,10 @@ public class GameActivity extends AppCompatActivity {
 
     // Maintains 20 dots on screen
     private void respawnDotsIfNeeded() {
-        // TODO: if dots drop below 20, respawn dots
+        int dotsToRespawn = MAX_DOTS - dots.size();
+        for (int i = 0; i < dotsToRespawn; i++) {
+            respawnDotsIfNeeded();
+        }
     }
 
     // Recreates the dots. Respawn mechanic
