@@ -21,6 +21,7 @@ public class Dot {
 
     public boolean isExpired() {
         // TODO Check if the dot has exceeded its max lifetime
+        return true;
     }
 
     public float getX() {
