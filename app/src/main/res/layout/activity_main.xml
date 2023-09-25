@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#8D50EF"
     tools:context=".MainActivity">
 
     <Button
@@ -14,10 +15,10 @@
         android:layout_marginTop="57dp"
         android:layout_marginEnd="162dp"
         android:layout_marginBottom="197dp"
-        android:background="@color/black"
+        android:background="@color/purple_500"
         android:backgroundTint="@android:color/black"
         android:text="Start"
-        app:iconTint="#FFFFFF"
+        app:iconTint="#DC1515"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +33,7 @@
         android:fontFamily="sans-serif-black"
         android:shadowColor="#000000"
         android:shadowRadius="5"
-        android:text="Press Start"
+        android:text="Untitled Dungeon Game"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#EDD711"
@@ -78,4 +79,14 @@
             android:layout_height="wrap_content"
             android:text="Hard" />
     </RadioGroup>
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="       Enter Your Name"
+        tools:layout_editor_absoluteX="99dp"
+        tools:layout_editor_absoluteY="462dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
