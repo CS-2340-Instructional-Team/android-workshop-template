@@ -34,90 +34,91 @@
         android:textAllCaps="false"
         android:textColor="#283D70"
         android:textSize="45sp"
-        tools:ignore="MissingConstraints,TextContrastCheck"
-        tools:layout_editor_absoluteX="-1dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
         android:id="@+id/characterRadioGroup"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:layout_gravity="center"
-        android:checkedButton="@id/zeusOption"
         android:orientation="vertical"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="3dp"
-        tools:layout_editor_absoluteY="293dp">
+        app:layout_constraintBottom_toTopOf="@+id/startButton"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.4"
+        tools:layout_editor_absoluteX="3dp">
 
+        <RadioButton
+            android:id="@+id/zeusOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#E0DDD5"
+            android:checked="true"
+            android:text="Zeus"
+            android:textColor="#E0DDD5"
+            android:textSize="25sp"
+            tools:layout_editor_absoluteX="21dp"
+            tools:layout_editor_absoluteY="171dp" />
+
+        <RadioButton
+            android:id="@+id/poseidonOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="80dp"
+            android:buttonTint="#E0DDD5"
+            android:text="Poseidon"
+            android:textColor="#E0DDD5"
+            android:textSize="25sp" />
+
+
+        <RadioButton
+            android:id="@+id/hadesOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#E0DDD5"
+            android:text="Hades"
+            android:textColor="#E0DDD5"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="@+id/characterRadioGroup"
+            app:layout_constraintStart_toStartOf="@+id/characterRadioGroup" />
 
     </RadioGroup>
 
-    <RadioButton
-        android:id="@+id/zeusOption"
-        android:layout_width="208dp"
-        android:layout_height="53dp"
-        android:buttonTint="#E0DDD5"
-        android:text="Zeus"
-        android:textColor="#E0DDD5"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/poseidonOption"
-        app:layout_constraintEnd_toStartOf="@+id/zeusImage"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/characterRadioGroup"
+    <ImageView
+        android:id="@+id/zeusImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/poseidonImage"
+        app:layout_constraintStart_toEndOf="@+id/characterRadioGroup"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.712" />
+        app:srcCompat="@drawable/zeus"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/hadesImage"
-        android:layout_width="132dp"
-        android:layout_height="137dp"
-        app:srcCompat="@drawable/Hades"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="206dp"
-        tools:layout_editor_absoluteY="442dp" />
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/startButton"
+        app:layout_constraintStart_toEndOf="@+id/characterRadioGroup"
+        app:srcCompat="@drawable/hades"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/poseidonImage"
-        android:layout_width="132dp"
-        android:layout_height="137dp"
-        app:srcCompat="@drawable/Poseidon"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="199dp"
-        tools:layout_editor_absoluteY="323dp" />
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/hadesImage"
+        app:layout_constraintStart_toEndOf="@+id/characterRadioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/zeusImage"
+        app:srcCompat="@drawable/poseidon"
+        tools:ignore="MissingConstraints" />
 
-    <ImageView
-        android:id="@+id/zeusImage"
-        android:layout_width="141dp"
-        android:layout_height="145dp"
-        app:srcCompat="@drawable/Zeus"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="195dp"
-        tools:layout_editor_absoluteY="218dp" />
-
-    <RadioButton
-        android:id="@+id/poseidonOption"
-        android:layout_width="176dp"
-        android:layout_height="85dp"
-        android:buttonTint="#E0DDD5"
-        android:text="Poseidon"
-        android:textColor="#E0DDD5"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/startButton"
-        app:layout_constraintEnd_toEndOf="@+id/poseidonImage"
-        app:layout_constraintEnd_toStartOf="@+id/poseidonImage"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <RadioButton
-        android:id="@+id/hadesOption"
-        android:layout_width="159dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="32dp"
-        android:buttonTint="#E0DDD5"
-        android:text="Hades"
-        android:textColor="#E0DDD5"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/poseidonOption" />
 </androidx.constraintlayout.widget.ConstraintLayout>
