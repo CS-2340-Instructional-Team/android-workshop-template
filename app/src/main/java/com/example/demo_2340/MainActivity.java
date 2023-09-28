@@ -18,25 +18,25 @@ public class MainActivity extends AppCompatActivity {
 
         // Set difficulty based on difficulty checked
         startBtn.setOnClickListener(v -> {
-            RadioGroup difficultyRadioGroup = findViewById(R.id.difficultyRadioGroup);
-            double difficulty = 1;
+            RadioGroup characterRadioGroup = findViewById(R.id.characterRadioGroup);
+            double character = 1;
 
-            switch (difficultyRadioGroup.getCheckedRadioButtonId()) {
-                case R.id.radioEasy:
-                    difficulty = 0.5;
+            switch (characterRadioGroup.getCheckedRadioButtonId()) {
+                case R.id.zeusOption:
+                    character = 0.5;
                     break;
-                case R.id.radioMedium:
-                    difficulty = 0.75;
+                case R.id.poseidonOption:
+                    character = 0.75;
                     break;
-                case R.id.radioHard:
-                    difficulty = 1;
+                case R.id.hadesOption:
+                    character = 1;
                     break;
                 default:
-                    difficulty = 0.5;
+                    character = 0.5;
                     break;
             }
             Intent game = new Intent(MainActivity.this, GameActivity.class);
-            game.putExtra("difficulty", difficulty);
+            game.putExtra("Character", character);
             startActivity(game);
             finish();
         });
