@@ -45,9 +45,9 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/startButton"
+        app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.4"
-        tools:layout_editor_absoluteX="3dp">
+        app:layout_constraintVertical_bias="0.4">
 
         <RadioButton
             android:id="@+id/zeusOption"
