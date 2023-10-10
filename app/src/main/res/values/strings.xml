@@ -1,11 +1,15 @@
 <resources>
-    <string name="app_name">demo_2340</string>
+    <string name="app_name">Greek Game</string>
     <string name="title">MyStack App</string>
     <string name="top_descriptor">Top of MyStack:</string>
     <string name="top_initial_text">Push a string below to start</string>
-    <string name="push_button">Push</string>
+    <string name="next_button">Next</string>
     <string name="push_hint_text">Enter a string to push</string>
-    <string name="pop_button">Pop</string>
+    <string name="start_button">Start</string>
+    <string name="character_select">Choose a character:</string>
+    <string name="character1_name">Zeus</string>
+    <string name="character2_name">Poseidon</string>
+    <string name="character3_name">Hades</string>
     <string name="delete_button">Delete</string>
-    <string name="delete_hint_text">Enter a number of strings to delete</string>
+    <string name="title_select_difficulty">Select Difficulty</string>
 </resources>

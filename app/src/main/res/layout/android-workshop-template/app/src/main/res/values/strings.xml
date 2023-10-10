@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">demo_2340</string>
+    <string name="title">MyStack App</string>
+    <string name="top_descriptor">Top of MyStack:</string>
+    <string name="top_initial_text">Push a string below to start</string>
+    <string name="push_button">Push</string>
+    <string name="push_hint_text">Enter a string to push</string>
+    <string name="pop_button">Pop</string>
+    <string name="delete_button">Delete</string>
+    <string name="delete_hint_text">Enter a number of strings to delete</string>
+</resources>
