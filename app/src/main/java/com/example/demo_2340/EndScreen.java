@@ -38,9 +38,11 @@ public class EndScreen extends AppCompatActivity {
         List<LeaderboardItem> leaderboardData = new ArrayList<>();
 
         // Add sample leaderboard items
-        leaderboardData.add(new LeaderboardItem("Player 1", 1000));
-        leaderboardData.add(new LeaderboardItem("Player 2", 850));
-        leaderboardData.add(new LeaderboardItem("Player 3", 750));
+        leaderboardData.add(new LeaderboardItem("Grant", 1000));
+        leaderboardData.add(new LeaderboardItem("Rohan", 850));
+        leaderboardData.add(new LeaderboardItem("Bodan", 600));
+        leaderboardData.add(new LeaderboardItem("Ary", 400));
+        leaderboardData.add(new LeaderboardItem("Stephen", 100));
         // Add more items as needed
 
         return leaderboardData;
