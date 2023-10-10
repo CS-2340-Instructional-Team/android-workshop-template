@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 
@@ -13,8 +12,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Button startBtn = findViewById(R.id.startButton);
+        setContentView(R.layout.activity_game_screen3);
+        Button startBtn = findViewById(R.id.nextButton);
 
         // Set difficulty based on difficulty checked
         startBtn.setOnClickListener(v -> {
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                     difficulty = 0.5;
                     break;
             }
-            Intent game = new Intent(MainActivity.this, GameActivity.class);
+
             game.putExtra("difficulty", difficulty);
             startActivity(game);
             finish();
