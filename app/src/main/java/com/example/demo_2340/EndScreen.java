@@ -28,8 +28,8 @@ public class EndScreen extends AppCompatActivity {
         // Create sample leaderboard data (you should replace this with your actual data)
         List<LeaderboardItem> leaderboardData = createSampleLeaderboardData();
 
-        // Create and set the adapter for the RecyclerView
-        leaderboardAdapter = new LeaderboardAdapter(leaderboardData);
+        // Get the Singleton instance of LeaderboardAdapter
+        leaderboardAdapter = LeaderboardAdapter.getInstance(leaderboardData);
         leaderboardRecyclerView.setAdapter(leaderboardAdapter);
     }
 
@@ -47,6 +47,7 @@ public class EndScreen extends AppCompatActivity {
 
         return leaderboardData;
     }
+
     public void endGame(View view) {
         Intent intent = new Intent(EndScreen.this, LaunchScreen.class);
         startActivity(intent);
