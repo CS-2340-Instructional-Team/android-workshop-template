@@ -22,12 +22,16 @@ public class GameScreen1 extends AppCompatActivity {
         Intent previousIntent = getIntent();
         String difficulty = previousIntent.getStringExtra("difficulty");
         String playerName = previousIntent.getStringExtra("playerName");
+        int liveScore = previousIntent.getIntExtra("Score", scoreTimer.getInterval());
 
         // Set the difficulty level in the player_info view
         TextView gameDifficultyTextView = findViewById(R.id.gameDifficultyTextView);
         gameDifficultyTextView.setText("Difficulty: " + difficulty);
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
         playerNameTextView.setText(playerName);
+        TextView livescoreTextView = findViewById(R.id.livescore);
+        playerNameTextView.setText("score: " + liveScore);
+
 
         // Assuming you have a playerName available, you can set it as well
         // TextView playerNameTextView = findViewById(R.id.playerNameTextView);
@@ -39,6 +43,7 @@ public class GameScreen1 extends AppCompatActivity {
                 Intent intent = new Intent(GameScreen1.this, GameScreen2.class);
                 intent.putExtra("difficulty", difficulty);
                 intent.putExtra("playerName", playerName);
+                intent.putExtra("livescore", liveScore);
                 startActivity(intent);
             }
         });
