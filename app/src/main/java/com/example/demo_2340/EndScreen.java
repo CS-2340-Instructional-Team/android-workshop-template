@@ -9,67 +9,86 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-//import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-//import java.util.Date;
 import java.util.Collections;
 import java.util.List;
-//import java.util.Locale;
 
 public class EndScreen extends AppCompatActivity {
-
     private RecyclerView leaderboardRecyclerView;
     private LeaderboardAdapter leaderboardAdapter;
+    private List<LeaderboardItem> leaderboardData;
 
-    //String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_screen);
-
-        // Initialize the RecyclerView
-        leaderboardRecyclerView = findViewById(R.id.leaderboardRecyclerView);
-        leaderboardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Create sample leaderboard data (you should replace this with your actual data)
-        List<LeaderboardItem> leaderboardData = createSampleLeaderboardData();
-
-        for (int i = 1; i < leaderboardData.size() - 1; i++){
-            if (leaderboardData.get(i - 1).getScore() < leaderboardData.get(i - 1).getScore()) {
-                leaderboardData.set(i-1, leaderboardData.get(i));
-            }
-        }
-        // Get the Singleton instance of LeaderboardAdapter
-        leaderboardAdapter = LeaderboardAdapter.getInstance(leaderboardData);
-        leaderboardRecyclerView.setAdapter(leaderboardAdapter);
+        ScoreTimer.stop();
 
         Intent previousIntent = getIntent();
         String difficulty = previousIntent.getStringExtra("difficulty");
         String playerName = previousIntent.getStringExtra("playerName");
+        int liveScore = previousIntent.getIntExtra("Score", ScoreTimer.getInterval());
 
-        // Set the difficulty level in the player_info view
         TextView gameDifficultyTextView = findViewById(R.id.gameDifficultyTextView);
         gameDifficultyTextView.setText("Difficulty: " + difficulty);
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
         playerNameTextView.setText(playerName);
+
+        TextView finalScoreTextView = findViewById(R.id.finalScoreTitle);
+        finalScoreTextView.setText("Final Score: " + liveScore);
+
+        leaderboardRecyclerView = findViewById(R.id.leaderboardRecyclerView);
+        leaderboardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Load the existing leaderboard data
+        leaderboardData = loadLeaderboardData();
+
+        // Add the new score to the leaderboard
+        addNewScore(playerName, liveScore);
+
+        // Sort the leaderboard based on scores
+        sortLeaderboard();
+
+        // Limit the leaderboard to a certain number of entries (e.g., top 5)
+        limitLeaderboard(5);
+
+        // Get the Singleton instance of LeaderboardAdapter
+        leaderboardAdapter = LeaderboardAdapter.getInstance(leaderboardData);
+        leaderboardRecyclerView.setAdapter(leaderboardAdapter);
     }
 
-    // Helper method to create sample leaderboard data
-    private List<LeaderboardItem> createSampleLeaderboardData() {
-        List<LeaderboardItem> leaderboardData = new ArrayList<>();
+    private List<LeaderboardItem> loadLeaderboardData() {
+        // Replace this with your code to load the leaderboard data from a persistent source
+        // For now, return an empty list.
+        return new ArrayList<>();
+    }
 
-        // Add sample leaderboard items
-        leaderboardData.add(new LeaderboardItem("Grant", 1000));
-        leaderboardData.add(new LeaderboardItem("Rohan", 850));
-        leaderboardData.add(new LeaderboardItem("Bodan", 600));
-        leaderboardData.add(new LeaderboardItem("Ary", 400));
-        leaderboardData.add(new LeaderboardItem("Stephen", 100));
-        // Add more items as needed
-        return leaderboardData;
+    private void saveLeaderboardData(List<LeaderboardItem> leaderboardData) {
+        // Replace this with your code to save the leaderboard data to a persistent source
+    }
+
+    private void addNewScore(String playerName, int score) {
+        leaderboardData.add(new LeaderboardItem(playerName, score));
+    }
+
+    private void sortLeaderboard() {
+        // Sort the leaderboard in descending order based on scores
+        Collections.sort(leaderboardData, (item1, item2) -> item2.getScore() - item1.getScore());
+    }
+
+    private void limitLeaderboard(int limit) {
+        // Limit the leaderboard to a certain number of entries
+        if (leaderboardData.size() > limit) {
+            leaderboardData = leaderboardData.subList(0, limit);
+        }
     }
 
     public void endGame(View view) {
+        // Save the updated leaderboard data
+        saveLeaderboardData(leaderboardData);
+
         Intent intent = new Intent(EndScreen.this, LaunchScreen.class);
         startActivity(intent);
+        ScoreTimer.reset();
     }
 }

@@ -20,14 +20,14 @@ public class GameScreen3 extends AppCompatActivity {
         Intent previousIntent = getIntent();
         String difficulty = previousIntent.getStringExtra("difficulty");
         String playerName = previousIntent.getStringExtra("playerName");
-        int liveScore = previousIntent.getIntExtra("Score", scoreTimer.getInterval());
+        int liveScore = previousIntent.getIntExtra("Score", ScoreTimer.getInterval());
 
         // Set the difficulty level in the player_info view
         TextView gameDifficultyTextView = findViewById(R.id.gameDifficultyTextView);
         gameDifficultyTextView.setText("Difficulty: " + difficulty);
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
         playerNameTextView.setText(playerName);
-        TextView livescoreTextView = findViewById(R.id.livescore);
+        TextView livescoreTextView = findViewById(R.id.livescoreTextView);
         playerNameTextView.setText("Score: " + liveScore);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override

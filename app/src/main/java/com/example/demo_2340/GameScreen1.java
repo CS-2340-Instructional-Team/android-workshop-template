@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ProgressBar;
 
 public class GameScreen1 extends AppCompatActivity {
 
@@ -15,6 +13,7 @@ public class GameScreen1 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen1);
+        ScoreTimer.start();
 
         Button nextButton = findViewById(R.id.nextButton);
 
@@ -22,15 +21,15 @@ public class GameScreen1 extends AppCompatActivity {
         Intent previousIntent = getIntent();
         String difficulty = previousIntent.getStringExtra("difficulty");
         String playerName = previousIntent.getStringExtra("playerName");
-        int liveScore = previousIntent.getIntExtra("Score", scoreTimer.getInterval());
+        int liveScore = previousIntent.getIntExtra("Score", ScoreTimer.getInterval());
 
         // Set the difficulty level in the player_info view
         TextView gameDifficultyTextView = findViewById(R.id.gameDifficultyTextView);
         gameDifficultyTextView.setText("Difficulty: " + difficulty);
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
         playerNameTextView.setText(playerName);
-        TextView livescoreTextView = findViewById(R.id.livescore);
-        playerNameTextView.setText("score: " + liveScore);
+        TextView livescoreTextView = findViewById(R.id.livescoreTextView);
+        playerNameTextView.setText("Score: " + liveScore);
 
 
         // Assuming you have a playerName available, you can set it as well
