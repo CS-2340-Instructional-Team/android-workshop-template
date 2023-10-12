@@ -3,6 +3,7 @@ package com.example.demo_2340;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +32,16 @@ public class EndScreen extends AppCompatActivity {
         // Get the Singleton instance of LeaderboardAdapter
         leaderboardAdapter = LeaderboardAdapter.getInstance(leaderboardData);
         leaderboardRecyclerView.setAdapter(leaderboardAdapter);
+
+        Intent previousIntent = getIntent();
+        String difficulty = previousIntent.getStringExtra("difficulty");
+        String playerName = previousIntent.getStringExtra("playerName");
+
+        // Set the difficulty level in the player_info view
+        TextView gameDifficultyTextView = findViewById(R.id.gameDifficultyTextView);
+        gameDifficultyTextView.setText("Difficulty: " + difficulty);
+        TextView playerNameTextView = findViewById(R.id.playerNameTextView);
+        playerNameTextView.setText(playerName);
     }
 
     // Helper method to create sample leaderboard data
