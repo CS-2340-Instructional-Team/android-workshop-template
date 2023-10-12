@@ -8,14 +8,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+//import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+//import java.util.Date;
+import java.util.Collections;
 import java.util.List;
+//import java.util.Locale;
 
 public class EndScreen extends AppCompatActivity {
 
     private RecyclerView leaderboardRecyclerView;
     private LeaderboardAdapter leaderboardAdapter;
 
+    //String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +33,11 @@ public class EndScreen extends AppCompatActivity {
         // Create sample leaderboard data (you should replace this with your actual data)
         List<LeaderboardItem> leaderboardData = createSampleLeaderboardData();
 
+        for (int i = 1; i < leaderboardData.size() - 1; i++){
+            if (leaderboardData.get(i - 1).getScore() < leaderboardData.get(i - 1).getScore()) {
+                leaderboardData.set(i-1, leaderboardData.get(i));
+            }
+        }
         // Get the Singleton instance of LeaderboardAdapter
         leaderboardAdapter = LeaderboardAdapter.getInstance(leaderboardData);
         leaderboardRecyclerView.setAdapter(leaderboardAdapter);
@@ -44,7 +54,6 @@ public class EndScreen extends AppCompatActivity {
         leaderboardData.add(new LeaderboardItem("Ary", 400));
         leaderboardData.add(new LeaderboardItem("Stephen", 100));
         // Add more items as needed
-
         return leaderboardData;
     }
 
