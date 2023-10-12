@@ -33,6 +33,6 @@ public class ScoreTimer {
     }
 
     public static void reset() {
-        interval = 1000; // Stop the timer task
+        interval = 1000; // Reset the timer task
     }
 }
