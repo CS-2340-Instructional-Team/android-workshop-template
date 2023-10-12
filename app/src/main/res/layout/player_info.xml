@@ -32,6 +32,15 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"/>
 
+        <!-- Live Timer Score -->
+        <TextView
+            android:id="@+id/livescore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"/>
         <!-- Player Health Bar -->
         <ProgressBar
             android:id="@+id/playerHealthProgressBar"
