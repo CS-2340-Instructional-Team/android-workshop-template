@@ -16,7 +16,10 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     private LeaderboardAdapter(List<LeaderboardItem> leaderboardData) {
         this.leaderboardData = leaderboardData;
-
+        this.leaderboardData.add(new LeaderboardItem("Grant", 400));
+        this.leaderboardData.add(new LeaderboardItem("Rohan", 350));
+        this.leaderboardData.add(new LeaderboardItem("Bodan", 250));
+        this.leaderboardData.add(new LeaderboardItem("Ary", 150));
     }
 
     public static LeaderboardAdapter getInstance(List<LeaderboardItem> leaderboardData) {
