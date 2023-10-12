@@ -11,10 +11,18 @@ import java.util.List;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
 
+    private static LeaderboardAdapter instance;
     private List<LeaderboardItem> leaderboardData;
 
-    public LeaderboardAdapter(List<LeaderboardItem> leaderboardData) {
+    private LeaderboardAdapter(List<LeaderboardItem> leaderboardData) {
         this.leaderboardData = leaderboardData;
+    }
+
+    public static LeaderboardAdapter getInstance(List<LeaderboardItem> leaderboardData) {
+        if (instance == null) {
+            instance = new LeaderboardAdapter(leaderboardData);
+        }
+        return instance;
     }
 
     @NonNull

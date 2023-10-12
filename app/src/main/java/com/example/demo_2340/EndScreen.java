@@ -3,6 +3,7 @@ package com.example.demo_2340;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,9 +29,19 @@ public class EndScreen extends AppCompatActivity {
         // Create sample leaderboard data (you should replace this with your actual data)
         List<LeaderboardItem> leaderboardData = createSampleLeaderboardData();
 
-        // Create and set the adapter for the RecyclerView
-        leaderboardAdapter = new LeaderboardAdapter(leaderboardData);
+        // Get the Singleton instance of LeaderboardAdapter
+        leaderboardAdapter = LeaderboardAdapter.getInstance(leaderboardData);
         leaderboardRecyclerView.setAdapter(leaderboardAdapter);
+
+        Intent previousIntent = getIntent();
+        String difficulty = previousIntent.getStringExtra("difficulty");
+        String playerName = previousIntent.getStringExtra("playerName");
+
+        // Set the difficulty level in the player_info view
+        TextView gameDifficultyTextView = findViewById(R.id.gameDifficultyTextView);
+        gameDifficultyTextView.setText("Difficulty: " + difficulty);
+        TextView playerNameTextView = findViewById(R.id.playerNameTextView);
+        playerNameTextView.setText(playerName);
     }
 
     // Helper method to create sample leaderboard data
@@ -38,13 +49,16 @@ public class EndScreen extends AppCompatActivity {
         List<LeaderboardItem> leaderboardData = new ArrayList<>();
 
         // Add sample leaderboard items
-        leaderboardData.add(new LeaderboardItem("Player 1", 1000));
-        leaderboardData.add(new LeaderboardItem("Player 2", 850));
-        leaderboardData.add(new LeaderboardItem("Player 3", 750));
+        leaderboardData.add(new LeaderboardItem("Grant", 1000));
+        leaderboardData.add(new LeaderboardItem("Rohan", 850));
+        leaderboardData.add(new LeaderboardItem("Bodan", 600));
+        leaderboardData.add(new LeaderboardItem("Ary", 400));
+        leaderboardData.add(new LeaderboardItem("Stephen", 100));
         // Add more items as needed
 
         return leaderboardData;
     }
+
     public void endGame(View view) {
         Intent intent = new Intent(EndScreen.this, LaunchScreen.class);
         startActivity(intent);
