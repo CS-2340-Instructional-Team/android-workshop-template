@@ -9,12 +9,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class GameScreen2 extends AppCompatActivity {
 
     private Player player;
-    private Handler handler = new Handler();
     private boolean moveButtonPressed = false;
 
     @Override
@@ -22,12 +22,10 @@ public class GameScreen2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen2);
 
-        Button nextButton = findViewById(R.id.nextButton);
-
         Intent previousIntent = getIntent();
         String difficulty = previousIntent.getStringExtra("difficulty");
         String playerName = previousIntent.getStringExtra("playerName");
-        int liveScore = previousIntent.getIntExtra("Score", ScoreTimer.getInterval());
+        int liveScore = previousIntent.getIntExtra("livescore", ScoreTimer.getInterval());
 
         // Set the difficulty level in the player_info view
         TextView gameDifficultyTextView = findViewById(R.id.gameDifficultyTextView);
@@ -35,16 +33,14 @@ public class GameScreen2 extends AppCompatActivity {
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
         playerNameTextView.setText(playerName);
         TextView livescoreTextView = findViewById(R.id.livescoreTextView);
-        playerNameTextView.setText("Score: " + liveScore);
+        livescoreTextView.setText("Score: " + liveScore);
 
         player = Player.getInstance();
 
         // Center the player at the start of the game
         ImageView playerImageView = findViewById(R.id.playerImageView);
-        int screenWidth = getResources().getDisplayMetrics().widthPixels;
-        int screenHeight = getResources().getDisplayMetrics().heightPixels;
-        int initialX = (screenWidth - playerImageView.getWidth()) / 2;
-        int initialY = (screenHeight - playerImageView.getHeight()) / 2;
+        int initialX = (getResources().getDisplayMetrics().widthPixels - playerImageView.getWidth()) / 2;
+        int initialY = (getResources().getDisplayMetrics().heightPixels - playerImageView.getHeight()) / 2;
         player.setxPosition(initialX);
         player.setyPosition(initialY);
         playerImageView.setX(initialX);
@@ -60,33 +56,17 @@ public class GameScreen2 extends AppCompatActivity {
         buttonDown.setOnTouchListener((v, event) -> handleTouch(event, 0, 10));
         buttonLeft.setOnTouchListener((v, event) -> handleTouch(event, -10, 0));
         buttonRight.setOnTouchListener((v, event) -> handleTouch(event, 10, 0));
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GameScreen2.this, GameScreen3.class);
-                intent.putExtra("difficulty", difficulty);
-                intent.putExtra("playerName", playerName);
-                intent.putExtra("livescore", liveScore);
-                startActivity(intent);
-            }
-        });
+
+        RelativeLayout nextScreenLayout = findViewById(R.id.nextScreenLayout);
+        nextScreenLayout.setOnClickListener(v -> moveToNextScreen());
     }
 
     private boolean handleTouch(MotionEvent event, int deltaX, int deltaY) {
         ImageView playerImageView = findViewById(R.id.playerImageView);
-        View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 moveButtonPressed = true;
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (moveButtonPressed) {
-                            movePlayer(deltaX, deltaY);
-                            handler.postDelayed(this, 100); // Adjust the delay as needed
-                        }
-                    }
-                }, 100); // Adjust the initial delay as needed
+                movePlayer(deltaX, deltaY);
                 break;
             case MotionEvent.ACTION_UP:
                 moveButtonPressed = false;
@@ -113,7 +93,46 @@ public class GameScreen2 extends AppCompatActivity {
             playerImageView.setY(newY);
         }
 
+        // Check if the player's position intersects with the nextScreenLayout
+        RelativeLayout nextScreenLayout = findViewById(R.id.nextScreenLayout);
+        if (isViewOverlapping(playerImageView, nextScreenLayout)) {
+            moveToNextScreen();
+        }
+
         // Force the view to redraw to reflect the updated position
         rootView.invalidate();
+    }
+
+    private boolean isViewOverlapping(View firstView, View secondView) {
+        int[] firstPosition = new int[2];
+        int[] secondPosition = new int[2];
+
+        firstView.getLocationOnScreen(firstPosition);
+        secondView.getLocationOnScreen(secondPosition);
+
+        int firstX = firstPosition[0];
+        int firstY = firstPosition[1];
+        int secondX = secondPosition[0];
+        int secondY = secondPosition[1];
+
+        return firstX < secondX + secondView.getWidth() &&
+                firstX + firstView.getWidth() > secondX &&
+                firstY < secondY + secondView.getHeight() &&
+                firstY + firstView.getHeight() > secondY;
+    }
+
+    private void moveToNextScreen() {
+        // Retrieve necessary data
+        Intent previousIntent = getIntent();
+        String difficulty = previousIntent.getStringExtra("difficulty");
+        String playerName = previousIntent.getStringExtra("playerName");
+        int liveScore = previousIntent.getIntExtra("livescore", ScoreTimer.getInterval());
+
+        // Start the next activity
+        Intent intent = new Intent(GameScreen2.this, GameScreen3.class);
+        intent.putExtra("difficulty", difficulty);
+        intent.putExtra("playerName", playerName);
+        intent.putExtra("livescore", liveScore);
+        startActivity(intent);
     }
 }

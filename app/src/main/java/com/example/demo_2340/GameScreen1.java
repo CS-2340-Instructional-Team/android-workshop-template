@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class GameScreen1 extends AppCompatActivity {
 
     private Player player;
-    private Handler handler = new Handler();
     private boolean moveButtonPressed = false;
 
     @Override
@@ -24,13 +24,11 @@ public class GameScreen1 extends AppCompatActivity {
         ScoreTimer.setCurrentGameScreenInstance(this);
         ScoreTimer.start();
 
-        // Retrieve the selected difficulty from the previous activity's Intent
         Intent previousIntent = getIntent();
         String difficulty = previousIntent.getStringExtra("difficulty");
         String playerName = previousIntent.getStringExtra("playerName");
-        int liveScore = previousIntent.getIntExtra("Score", ScoreTimer.getInterval());
+        int liveScore = previousIntent.getIntExtra("livescore", ScoreTimer.getInterval());
 
-        // Set the difficulty level in the player_info view
         TextView gameDifficultyTextView = findViewById(R.id.gameDifficultyTextView);
         gameDifficultyTextView.setText("Difficulty: " + difficulty);
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
@@ -40,18 +38,14 @@ public class GameScreen1 extends AppCompatActivity {
 
         player = Player.getInstance();
 
-        // Center the player at the start of the game
         ImageView playerImageView = findViewById(R.id.playerImageView);
-        int screenWidth = getResources().getDisplayMetrics().widthPixels;
-        int screenHeight = getResources().getDisplayMetrics().heightPixels;
-        int initialX = (screenWidth - playerImageView.getWidth()) / 2;
-        int initialY = (screenHeight - playerImageView.getHeight()) / 2;
+        int initialX = (getResources().getDisplayMetrics().widthPixels - playerImageView.getWidth()) / 2;
+        int initialY = (getResources().getDisplayMetrics().heightPixels - playerImageView.getHeight()) / 2;
         player.setxPosition(initialX);
         player.setyPosition(initialY);
         playerImageView.setX(initialX);
         playerImageView.setY(initialY);
 
-        // Set listeners for dpad buttons
         Button buttonUp = findViewById(R.id.buttonUp);
         Button buttonDown = findViewById(R.id.buttonDown);
         Button buttonLeft = findViewById(R.id.buttonLeft);
@@ -62,31 +56,16 @@ public class GameScreen1 extends AppCompatActivity {
         buttonLeft.setOnTouchListener((v, event) -> handleTouch(event, -10, 0));
         buttonRight.setOnTouchListener((v, event) -> handleTouch(event, 10, 0));
 
-        Button nextButton = findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(v -> {
-            Intent intent = new Intent(GameScreen1.this, GameScreen2.class);
-            intent.putExtra("difficulty", difficulty);
-            intent.putExtra("playerName", playerName);
-            intent.putExtra("livescore", liveScore);
-            startActivity(intent);
-        });
+        RelativeLayout nextScreenLayout = findViewById(R.id.nextScreenLayout);
+        nextScreenLayout.setOnClickListener(v -> moveToNextScreen());
     }
 
     private boolean handleTouch(MotionEvent event, int deltaX, int deltaY) {
         ImageView playerImageView = findViewById(R.id.playerImageView);
-        View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 moveButtonPressed = true;
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (moveButtonPressed) {
-                            movePlayer(deltaX, deltaY);
-                            handler.postDelayed(this, 100); // Adjust the delay as needed
-                        }
-                    }
-                }, 100); // Adjust the initial delay as needed
+                movePlayer(deltaX, deltaY);
                 break;
             case MotionEvent.ACTION_UP:
                 moveButtonPressed = false;
@@ -95,13 +74,13 @@ public class GameScreen1 extends AppCompatActivity {
         return true;
     }
 
+
     private void movePlayer(int deltaX, int deltaY) {
         ImageView playerImageView = findViewById(R.id.playerImageView);
 
         int newX = player.getxPosition() + deltaX;
         int newY = player.getyPosition() + deltaY;
 
-        // Adjust boundaries to prevent moving outside the screen
         View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
         if (newX >= 0 && newX <= rootView.getWidth() - playerImageView.getWidth()) {
             player.setxPosition(newX);
@@ -113,7 +92,42 @@ public class GameScreen1 extends AppCompatActivity {
             playerImageView.setY(newY);
         }
 
-        // Force the view to redraw to reflect the updated position
+        RelativeLayout nextScreenLayout = findViewById(R.id.nextScreenLayout);
+        if (isViewOverlapping(playerImageView, nextScreenLayout)) {
+            moveToNextScreen();
+        }
+
         rootView.invalidate();
+    }
+
+    private boolean isViewOverlapping(View firstView, View secondView) {
+        int[] firstPosition = new int[2];
+        int[] secondPosition = new int[2];
+
+        firstView.getLocationOnScreen(firstPosition);
+        secondView.getLocationOnScreen(secondPosition);
+
+        int firstX = firstPosition[0];
+        int firstY = firstPosition[1];
+        int secondX = secondPosition[0];
+        int secondY = secondPosition[1];
+
+        return firstX < secondX + secondView.getWidth() &&
+                firstX + firstView.getWidth() > secondX &&
+                firstY < secondY + secondView.getHeight() &&
+                firstY + firstView.getHeight() > secondY;
+    }
+
+    private void moveToNextScreen() {
+        Intent previousIntent = getIntent();
+        String difficulty = previousIntent.getStringExtra("difficulty");
+        String playerName = previousIntent.getStringExtra("playerName");
+        int liveScore = previousIntent.getIntExtra("livescore", ScoreTimer.getInterval());
+
+        Intent intent = new Intent(GameScreen1.this, GameScreen2.class);
+        intent.putExtra("difficulty", difficulty);
+        intent.putExtra("playerName", playerName);
+        intent.putExtra("livescore", liveScore);
+        startActivity(intent);
     }
 }
