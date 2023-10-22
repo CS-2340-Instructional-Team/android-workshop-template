@@ -1,29 +1,36 @@
 package com.example.demo_2340;
 
 public class Player {
-    private static int score;
-    private String name;
+    private static Player instance = null;
+    private int xPosition;
+    private int yPosition;
 
-    private static Player p1;
+    private Player() {
+        // Initialize default position
+        this.xPosition = 0;
+        this.yPosition = 0;
+    }
 
-    private Player(){
-        score = 1000;
-        name = "George P. Burdelle";
-    }
-    public Player (String name) {
-        this.name = name;
-        score = 1000;
-    }
-    public static Player getPlayer() {
-        if(p1 == null) {
-            p1 = new Player();
+    public static Player getInstance() {
+        if (instance == null) {
+            instance = new Player();
         }
-        return p1;
+        return instance;
     }
-    public static void updateScore(int score) {
-        score = score;
+
+    public int getxPosition() {
+        return xPosition;
     }
-    public static int getScore(){
-        return score;
+
+    public void setxPosition(int xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    public int getyPosition() {
+        return yPosition;
+    }
+
+    public void setyPosition(int yPosition) {
+        this.yPosition = yPosition;
     }
 }
