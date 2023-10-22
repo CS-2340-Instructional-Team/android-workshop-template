@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Rule;
 import org.junit.Test;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -33,6 +34,10 @@ public class EndScreenTest {
         onView(withId(R.id.playerNameTextView)).check(matches(withText("John Doe")));
 
         onView(withId(R.id.finalScoreTitle)).check(matches(withText("Final Score: 100"))); // Replace with the actual final score
+    }
+    @Test
+    public void testEndGame() {
+        onView(withId(R.id.endGameButton)).perform(click());
     }
 
     // Add more test cases as needed to cover other functionality of the EndScreen activity

@@ -40,4 +40,11 @@ public class SelectCharacterTest {
 
         // You can then perform assertions within the SelectCharacter activity as needed.
     }
+    @Test
+    public void testEmptyInputAndToastCharacter() {
+        // Don't type anything into the EditText (empty input)
+
+        // Click on the "Start" button
+        onView(withId(R.id.nextButton)).perform(click());
+    }
 }

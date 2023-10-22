@@ -37,4 +37,11 @@ public class SelectDifficultyTest {
 
         // You can then perform assertions within the SelectDifficulty activity as needed.
     }
+    @Test
+    public void testEmptyInputAndToastDifficulty() {
+        // Don't type anything into the EditText (empty input)
+
+        // Click on the "Start" button
+        onView(withId(R.id.startButton)).perform(click());
+    }
 }
