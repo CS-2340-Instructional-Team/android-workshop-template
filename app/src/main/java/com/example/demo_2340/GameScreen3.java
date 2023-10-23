@@ -53,10 +53,15 @@ public class GameScreen3 extends AppCompatActivity {
         Button buttonLeft = findViewById(R.id.buttonLeft);
         Button buttonRight = findViewById(R.id.buttonRight);
 
-        buttonUp.setOnTouchListener((v, event) -> handleTouch(event, 0, -10));
-        buttonDown.setOnTouchListener((v, event) -> handleTouch(event, 0, 10));
-        buttonLeft.setOnTouchListener((v, event) -> handleTouch(event, -10, 0));
-        buttonRight.setOnTouchListener((v, event) -> handleTouch(event, 10, 0));
+        int amount = 40;
+        MovementStrategyPattern up = new MoveUp();
+        buttonUp.setOnTouchListener((v, event) -> handleTouch(event, 0, up.move(amount)));
+        MovementStrategyPattern down = new MoveDown();
+        buttonDown.setOnTouchListener((v, event) -> handleTouch(event, 0, down.move(amount)));
+        MovementStrategyPattern left = new MoveLeft();
+        buttonLeft.setOnTouchListener((v, event) -> handleTouch(event, left.move(amount), 0));
+        MovementStrategyPattern right = new MoveRight();
+        buttonRight.setOnTouchListener((v, event) -> handleTouch(event, right.move(amount), 0));
 
         RelativeLayout nextScreenLayout = findViewById(R.id.nextScreenLayout);
         nextScreenLayout.setOnClickListener(v -> moveToNextScreen());
