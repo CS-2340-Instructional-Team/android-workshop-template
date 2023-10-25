@@ -2,6 +2,7 @@ package com.example.demo_2340;
 
 public class Player {
     private static Player instance = null;
+    private MovementStrategyPattern movementStrategy;
     private int xPosition;
     private int yPosition;
 
@@ -32,5 +33,9 @@ public class Player {
 
     public void setyPosition(int yPosition) {
         this.yPosition = yPosition;
+    }
+
+    public void setMovementStrategy(MovementStrategyPattern movementStrategy) {
+        this.movementStrategy = movementStrategy;
     }
 }
