@@ -1,5 +1,6 @@
 package com.example.demo_2340;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class GameScreen1 extends AppCompatActivity {
 
     private Player player;
+    private Sprite sprite;
+    private Heavy1 heavy;
     private boolean moveButtonPressed = false;
 
     @Override
@@ -102,6 +105,23 @@ public class GameScreen1 extends AppCompatActivity {
         }
 
         rootView.invalidate();
+    }
+    private void moveEnemySprite() {
+        ImageView playerImageView = findViewById(R.id.playerImageView);
+        double newX = sprite.move();
+        double newY = sprite.move();
+
+        View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        if (newX >= 0 && newX <= rootView.getWidth() - playerImageView.getWidth()) {
+            sprite.setxPosition(newX);
+            playerImageView.setX((float)newX);
+        }
+
+        if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
+            sprite.setyPosition(newY);
+            playerImageView.setY((float)newY);
+        }
+//ADD COLLISION CODE HERE!!!!!!!
     }
 
     private boolean isViewOverlapping(View firstView, View secondView) {

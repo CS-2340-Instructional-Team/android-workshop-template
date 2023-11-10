@@ -3,5 +3,5 @@ import java.math.*;
 
 interface Enemies {
     String getType();
-    void move();
+    double move();
 }
