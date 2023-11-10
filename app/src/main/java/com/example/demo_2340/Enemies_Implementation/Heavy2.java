@@ -1,8 +1,9 @@
-package com.example.demo_2340;
-public class Heavy3 implements Enemies {
+package com.example.demo_2340.Enemies_Implementation;
+
+public class Heavy2 implements Enemies {
     private String type;
-    public Heavy3() {
-        type = "Heavy3";
+    public Heavy2() {
+        type = "Heavy2";
     }
     public String getType() {
         return type;
@@ -20,4 +21,5 @@ public class Heavy3 implements Enemies {
             direc = "Down";
         }
     }
+
 }

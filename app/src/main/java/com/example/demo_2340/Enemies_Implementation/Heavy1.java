@@ -1,4 +1,4 @@
-package com.example.demo_2340;
+package com.example.demo_2340.Enemies_Implementation;
 
 public class Heavy1 implements Enemies {
     private String type;
