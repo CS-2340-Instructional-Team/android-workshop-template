@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.demo_2340.Enemies_Implementation.Sprite;
 import com.example.demo_2340.Player_Movement.MoveDown;
 import com.example.demo_2340.Player_Movement.MoveLeft;
 import com.example.demo_2340.Player_Movement.MoveRight;
@@ -19,6 +20,7 @@ import com.example.demo_2340.Player_Movement.MovementStrategyPattern;
 public class GameScreen2 extends AppCompatActivity {
 
     private Player player;
+    private Sprite sprite;
     private boolean moveButtonPressed = false;
 
     @Override
@@ -40,6 +42,7 @@ public class GameScreen2 extends AppCompatActivity {
         livescoreTextView.setText("Score: " + liveScore);
 
         player = Player.getInstance();
+        sprite = new Sprite();
 
         // Center the player at the start of the game
         ImageView playerImageView = findViewById(R.id.playerImageView);
@@ -110,6 +113,23 @@ public class GameScreen2 extends AppCompatActivity {
 
         // Force the view to redraw to reflect the updated position
         rootView.invalidate();
+    }
+    private void moveEnemySprite() {
+        ImageView playerImageView = findViewById(R.id.playerImageView);
+        double newX = sprite.move();
+        double newY = sprite.move();
+
+        View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        if (newX >= 0 && newX <= rootView.getWidth() - playerImageView.getWidth()) {
+            sprite.setxPosition(newX);
+            playerImageView.setX((float) newX);
+        }
+
+        if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
+            sprite.setyPosition(newY);
+            playerImageView.setY((float) newY);
+        }
+        //ADD COLLISION CODE HERE!!!!!!!
     }
 
     private boolean isViewOverlapping(View firstView, View secondView) {

@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.demo_2340.Enemies_Implementation.Heavy1;
+import com.example.demo_2340.Enemies_Implementation.Sprite;
 import com.example.demo_2340.Player_Movement.MoveDown;
 import com.example.demo_2340.Player_Movement.MoveLeft;
 import com.example.demo_2340.Player_Movement.MoveRight;
@@ -45,6 +47,8 @@ public class GameScreen1 extends AppCompatActivity {
         livescoreTextView.setText("Score: " + liveScore);
 
         player = Player.getInstance();
+        sprite = new Sprite();
+        heavy = new Heavy1();
 
         ImageView playerImageView = findViewById(R.id.playerImageView);
         int initialX = (getResources().getDisplayMetrics().widthPixels - playerImageView.getWidth()) / 2;
@@ -119,14 +123,31 @@ public class GameScreen1 extends AppCompatActivity {
         View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
         if (newX >= 0 && newX <= rootView.getWidth() - playerImageView.getWidth()) {
             sprite.setxPosition(newX);
-            playerImageView.setX((float)newX);
+            playerImageView.setX((float) newX);
         }
 
         if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
             sprite.setyPosition(newY);
-            playerImageView.setY((float)newY);
+            playerImageView.setY((float) newY);
         }
-//ADD COLLISION CODE HERE!!!!!!!
+        //ADD COLLISION CODE HERE!!!!!!!
+    }
+    private void moveEnemyHeavy() {
+        ImageView playerImageView = findViewById(R.id.playerImageView);
+        double newX = heavy.move();
+        double newY = heavy.move();
+
+        View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        if (newX >= 0 && newX <= rootView.getWidth() - playerImageView.getWidth()) {
+            heavy.setxPosition(newX);
+            playerImageView.setX((float) newX);
+        }
+
+        if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
+            heavy.setyPosition(newY);
+            playerImageView.setY((float) newY);
+        }
+        //ADD COLLISION CODE HERE!!!!!!!
     }
 
     private boolean isViewOverlapping(View firstView, View secondView) {
