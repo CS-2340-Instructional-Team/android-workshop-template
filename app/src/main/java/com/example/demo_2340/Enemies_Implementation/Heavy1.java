@@ -2,13 +2,17 @@ package com.example.demo_2340.Enemies_Implementation;
 
 public class Heavy1 implements Enemies {
     private String type;
+    private double xPosition;
+    private double yPosition;
     public Heavy1() {
+        this.xPosition = 0;
+        this.yPosition = 0;
         type = "Heavy";
     }
     public String getType(){
         return type;
     }
-    public void move() {
+    public double move() {
         double movement = Math.random() * 10.0;
         String direc;
         if (movement <= 10.0 || movement > 7) {
@@ -20,5 +24,22 @@ public class Heavy1 implements Enemies {
         } else {
             direc = "Down";
         }
+
+        return movement;
+    }
+    public double getxPosition() {
+        return xPosition;
+    }
+
+    public void setxPosition(double xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    public double getyPosition() {
+        return yPosition;
+    }
+
+    public void setyPosition(double yPosition) {
+        this.yPosition = yPosition;
     }
 }
