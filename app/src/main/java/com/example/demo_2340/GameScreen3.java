@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +11,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.demo_2340.Player_Movement.MoveDown;
+import com.example.demo_2340.Player_Movement.MoveLeft;
+import com.example.demo_2340.Player_Movement.MoveRight;
+import com.example.demo_2340.Player_Movement.MoveUp;
+import com.example.demo_2340.Player_Movement.MovementStrategyPattern;
 public class GameScreen3 extends AppCompatActivity {
 
     private Player player;
