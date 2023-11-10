@@ -1,4 +1,4 @@
-package com.example.demo_2340;
+package com.example.demo_2340.Enemies_Implementation;
 
 public class EnemiesFactory {
     public static Enemies buildEnemies(String type) {

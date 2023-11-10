@@ -1,12 +1,11 @@
-package com.example.demo_2340;
+package com.example.demo_2340.Enemies_Implementation;
 
-public class Sprite implements Enemies {
+public class Heavy1 implements Enemies {
     private String type;
-
-    public Sprite() {
-        type = "Sprite";
+    public Heavy1() {
+        type = "Heavy";
     }
-    public String getType() {
+    public String getType(){
         return type;
     }
     public void move() {
@@ -22,5 +21,4 @@ public class Sprite implements Enemies {
             direc = "Down";
         }
     }
-
 }
