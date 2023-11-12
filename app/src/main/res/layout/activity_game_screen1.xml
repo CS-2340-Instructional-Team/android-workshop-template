@@ -36,6 +36,30 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
 
+    <ImageView
+        android:id="@+id/enemyImageView1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/heavy1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.925"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.574" />
+
+    <ImageView
+        android:id="@+id/enemyImageView2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/heavy2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.124"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.371" />
+
     <include
         layout="@layout/dpad"
         android:layout_width="wrap_content"

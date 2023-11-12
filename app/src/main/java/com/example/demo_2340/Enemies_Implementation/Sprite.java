@@ -28,18 +28,19 @@ public class Sprite implements Enemies {
         }
         return movement;
     }
+    @Override
     public double getxPosition() {
         return xPosition;
     }
-
+    @Override
     public void setxPosition(double xPosition) {
         this.xPosition = xPosition;
     }
-
+    @Override
     public double getyPosition() {
         return yPosition;
     }
-
+    @Override
     public void setyPosition(double yPosition) {
         this.yPosition = yPosition;
     }
