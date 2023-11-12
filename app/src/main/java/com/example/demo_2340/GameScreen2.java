@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.demo_2340.Enemies_Implementation.EnemiesFactory;
+import com.example.demo_2340.Enemies_Implementation.Heavy2;
 import com.example.demo_2340.Enemies_Implementation.Sprite;
 import com.example.demo_2340.Player_Movement.MoveDown;
 import com.example.demo_2340.Player_Movement.MoveLeft;
@@ -21,6 +23,7 @@ public class GameScreen2 extends AppCompatActivity {
 
     private Player player;
     private Sprite sprite;
+    private Heavy2 heavy2;
     private boolean moveButtonPressed = false;
 
     @Override
@@ -42,7 +45,8 @@ public class GameScreen2 extends AppCompatActivity {
         livescoreTextView.setText("Score: " + liveScore);
 
         player = Player.getInstance();
-        sprite = new Sprite();
+        sprite = (Sprite) EnemiesFactory.buildEnemies("Sprite");
+        heavy2 = (Heavy2) EnemiesFactory.buildEnemies("Heavy2");
 
         // Center the player at the start of the game
         ImageView playerImageView = findViewById(R.id.playerImageView);
@@ -71,6 +75,9 @@ public class GameScreen2 extends AppCompatActivity {
 
         RelativeLayout nextScreenLayout = findViewById(R.id.nextScreenLayout);
         nextScreenLayout.setOnClickListener(v -> moveToNextScreen());
+
+        moveEnemySprite();
+        moveEnemyHeavy2();
     }
 
     private boolean handleTouch(MotionEvent event, int deltaX, int deltaY) {
@@ -127,6 +134,24 @@ public class GameScreen2 extends AppCompatActivity {
 
         if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
             sprite.setyPosition(newY);
+            playerImageView.setY((float) newY);
+        }
+        //ADD COLLISION CODE HERE!!!!!!!
+    }
+
+    private void moveEnemyHeavy2() {
+        ImageView playerImageView = findViewById(R.id.playerImageView);
+        double newX = heavy2.move();
+        double newY = heavy2.move();
+
+        View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        if (newX >= 0 && newX <= rootView.getWidth() - playerImageView.getWidth()) {
+            heavy2.setxPosition(newX);
+            playerImageView.setX((float) newX);
+        }
+
+        if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
+            heavy2.setyPosition(newY);
             playerImageView.setY((float) newY);
         }
         //ADD COLLISION CODE HERE!!!!!!!

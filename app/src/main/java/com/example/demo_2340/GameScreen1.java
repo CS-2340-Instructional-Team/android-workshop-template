@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.demo_2340.Enemies_Implementation.EnemiesFactory;
 import com.example.demo_2340.Enemies_Implementation.Heavy1;
 import com.example.demo_2340.Enemies_Implementation.Sprite;
 import com.example.demo_2340.Player_Movement.MoveDown;
@@ -47,8 +48,8 @@ public class GameScreen1 extends AppCompatActivity {
         livescoreTextView.setText("Score: " + liveScore);
 
         player = Player.getInstance();
-        sprite = new Sprite();
-        heavy = new Heavy1();
+        sprite = (Sprite) EnemiesFactory.buildEnemies("Sprite");
+        heavy = (Heavy1) EnemiesFactory.buildEnemies("Heavy");
 
         ImageView playerImageView = findViewById(R.id.playerImageView);
         int initialX = (getResources().getDisplayMetrics().widthPixels - playerImageView.getWidth()) / 2;
@@ -75,6 +76,9 @@ public class GameScreen1 extends AppCompatActivity {
 
         RelativeLayout nextScreenLayout = findViewById(R.id.nextScreenLayout);
         nextScreenLayout.setOnClickListener(v -> moveToNextScreen());
+
+        moveEnemySprite();
+        moveEnemyHeavy();
     }
 
     private boolean handleTouch(MotionEvent event, int deltaX, int deltaY) {

@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.demo_2340.Enemies_Implementation.EnemiesFactory;
+import com.example.demo_2340.Enemies_Implementation.Heavy3;
+import com.example.demo_2340.Enemies_Implementation.Sprite;
 import com.example.demo_2340.Player_Movement.MoveDown;
 import com.example.demo_2340.Player_Movement.MoveLeft;
 import com.example.demo_2340.Player_Movement.MoveRight;
@@ -19,7 +22,8 @@ import com.example.demo_2340.Player_Movement.MovementStrategyPattern;
 public class GameScreen3 extends AppCompatActivity {
 
     private Player player;
-
+    private Sprite sprite;
+    private Heavy3 heavy3;
     private boolean moveButtonPressed = false;
 
     @Override
@@ -41,6 +45,8 @@ public class GameScreen3 extends AppCompatActivity {
         livescoreTextView.setText("Score: " + liveScore);
 
         player = Player.getInstance();
+        sprite = (Sprite) EnemiesFactory.buildEnemies("Sprite");
+        heavy3 = (Heavy3) EnemiesFactory.buildEnemies("Heavy2");
 
         // Center the player at the start of the game
         ImageView playerImageView = findViewById(R.id.playerImageView);
@@ -69,6 +75,9 @@ public class GameScreen3 extends AppCompatActivity {
 
         RelativeLayout nextScreenLayout = findViewById(R.id.nextScreenLayout);
         nextScreenLayout.setOnClickListener(v -> moveToNextScreen());
+
+        moveEnemySprite();
+        moveEnemyHeavy2();
     }
 
     private boolean handleTouch(MotionEvent event, int deltaX, int deltaY) {
@@ -111,6 +120,42 @@ public class GameScreen3 extends AppCompatActivity {
 
         // Force the view to redraw to reflect the updated position
         rootView.invalidate();
+    }
+
+    private void moveEnemySprite() {
+        ImageView playerImageView = findViewById(R.id.playerImageView);
+        double newX = sprite.move();
+        double newY = sprite.move();
+
+        View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        if (newX >= 0 && newX <= rootView.getWidth() - playerImageView.getWidth()) {
+            sprite.setxPosition(newX);
+            playerImageView.setX((float) newX);
+        }
+
+        if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
+            sprite.setyPosition(newY);
+            playerImageView.setY((float) newY);
+        }
+        //ADD COLLISION CODE HERE!!!!!!!
+    }
+
+    private void moveEnemyHeavy2() {
+        ImageView playerImageView = findViewById(R.id.playerImageView);
+        double newX = heavy3.move();
+        double newY = heavy3.move();
+
+        View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        if (newX >= 0 && newX <= rootView.getWidth() - playerImageView.getWidth()) {
+            heavy3.setxPosition(newX);
+            playerImageView.setX((float) newX);
+        }
+
+        if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
+            heavy3.setyPosition(newY);
+            playerImageView.setY((float) newY);
+        }
+        //ADD COLLISION CODE HERE!!!!!!!
     }
 
     private boolean isViewOverlapping(View firstView, View secondView) {
