@@ -16,6 +16,10 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     private LeaderboardAdapter(List<LeaderboardItem> leaderboardData) {
         this.leaderboardData = leaderboardData;
+        this.leaderboardData.add(new LeaderboardItem("Grant", 400));
+        this.leaderboardData.add(new LeaderboardItem("Rohan", 350));
+        this.leaderboardData.add(new LeaderboardItem("Bodan", 250));
+        this.leaderboardData.add(new LeaderboardItem("Ary", 150));
     }
 
     public static LeaderboardAdapter getInstance(List<LeaderboardItem> leaderboardData) {
@@ -40,6 +44,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         // Bind data to the views
         holder.playerNameTextView.setText(item.getPlayerName());
         holder.scoreTextView.setText(String.valueOf(item.getScore()));
+        //holder.scoreDateView.setText(String.valueOf(item.getDate()));
     }
 
     @Override
@@ -51,10 +56,13 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         public TextView playerNameTextView;
         public TextView scoreTextView;
 
+        //public TextView scoreDateView;
+
         public ViewHolder(View itemView) {
             super(itemView);
             playerNameTextView = itemView.findViewById(R.id.playerNameTextView); // Replace with the actual view IDs
             scoreTextView = itemView.findViewById(R.id.scoreTextView); // Replace with the actual view IDs
+            //scoreDateView = itemView.findViewById(R.id.scoreDateView);
         }
     }
 }

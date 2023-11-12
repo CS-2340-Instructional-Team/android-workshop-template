@@ -39,6 +39,7 @@ public class SelectDifficulty extends AppCompatActivity {
                     intent.putExtra("playerName", playerName);
                     intent.putExtra("difficulty", difficulty);
 
+                    ScoreTimer s1 = new ScoreTimer();
                     // Start the target activity
                     startActivity(intent);
                 } else {
