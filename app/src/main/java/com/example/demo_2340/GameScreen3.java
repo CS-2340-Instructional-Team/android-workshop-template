@@ -77,7 +77,7 @@ public class GameScreen3 extends AppCompatActivity {
         nextScreenLayout.setOnClickListener(v -> moveToNextScreen());
 
         moveEnemySprite();
-        moveEnemyHeavy2();
+        moveEnemyHeavy3();
     }
 
     private boolean handleTouch(MotionEvent event, int deltaX, int deltaY) {
@@ -140,7 +140,7 @@ public class GameScreen3 extends AppCompatActivity {
         //ADD COLLISION CODE HERE!!!!!!!
     }
 
-    private void moveEnemyHeavy2() {
+    private void moveEnemyHeavy3() {
         ImageView playerImageView = findViewById(R.id.playerImageView);
         double newX = heavy3.move();
         double newY = heavy3.move();
