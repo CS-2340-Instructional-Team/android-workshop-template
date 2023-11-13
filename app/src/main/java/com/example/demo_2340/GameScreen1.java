@@ -34,7 +34,6 @@ public class GameScreen1 extends AppCompatActivity {
     private final Handler clockHandler = new Handler(Looper.myLooper()); //Activity Loop for screen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        player.setHealth(100);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen1);
 
@@ -53,6 +52,7 @@ public class GameScreen1 extends AppCompatActivity {
 
         //create Player
         player = Player.getInstance();
+        player.setHealth(100);
         createPlayer();
 
         inheritProperties();
@@ -196,7 +196,6 @@ public class GameScreen1 extends AppCompatActivity {
         int initialY = (getResources().getDisplayMetrics().heightPixels - playerImageView.getHeight()) / 2;
         player.setxPosition(initialX);
         player.setyPosition(initialY);
-        player.setHealth(100);
         playerImageView.setX(initialX);
         playerImageView.setY(initialY);
     }

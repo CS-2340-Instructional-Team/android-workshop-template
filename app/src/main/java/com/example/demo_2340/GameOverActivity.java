@@ -35,16 +35,13 @@ public class GameOverActivity extends AppCompatActivity {
         playerNameTextView.setText(playerName);
 
         TextView finalScoreTextView = findViewById(R.id.finalScoreTitle);
-        finalScoreTextView.setText("Final Score: " + liveScore);
+        finalScoreTextView.setText("GAME OVER");
 
         leaderboardRecyclerView = findViewById(R.id.leaderboardRecyclerView);
         leaderboardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Load the existing leaderboard data
         leaderboardData = loadLeaderboardData();
-
-        // Add the new score to the leaderboard
-        addNewScore(playerName, liveScore);
 
         // Sort the leaderboard based on scores
         sortLeaderboard();
