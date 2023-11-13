@@ -1,18 +1,20 @@
 package com.example.demo_2340;
-
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.demo_2340.Enemies_Implementation.EnemiesFactory;
+import com.example.demo_2340.CollisionObserver.CollisionManager;
+import com.example.demo_2340.Enemies_Implementation.Enemies;
 import com.example.demo_2340.Enemies_Implementation.Heavy1;
 import com.example.demo_2340.Enemies_Implementation.Sprite;
 import com.example.demo_2340.Player_Movement.MoveDown;
@@ -20,65 +22,93 @@ import com.example.demo_2340.Player_Movement.MoveLeft;
 import com.example.demo_2340.Player_Movement.MoveRight;
 import com.example.demo_2340.Player_Movement.MoveUp;
 import com.example.demo_2340.Player_Movement.MovementStrategyPattern;
-
 public class GameScreen1 extends AppCompatActivity {
-
     private Player player;
-    private Sprite sprite;
-    private Heavy1 heavy;
+    private Enemies spriteEnemy; // Update the type to Enemies
+    private Enemies heavyEnemy;
+    private ImageView playerImageView;
+    private ImageView enemyImageView1;
+    private ImageView enemyImageView2;
+    private boolean gameOverFlag = false; // Add this flag
     private boolean moveButtonPressed = false;
+    private final Handler clockHandler = new Handler(Looper.myLooper()); //Activity Loop for screen
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            // Move the player to its initial position
+            movePlayer(0, 0);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen1);
+
+        // Get active elements
+        playerImageView = findViewById(R.id.playerImageView);
+        enemyImageView1 = findViewById(R.id.enemyImageView1);
+        enemyImageView2 = findViewById(R.id.enemyImageView2);
+
+        // Get timer
         ScoreTimer.setCurrentGameScreenInstance(this);
-        ScoreTimer.start();
 
-        Intent previousIntent = getIntent();
-        String difficulty = previousIntent.getStringExtra("difficulty");
-        String playerName = previousIntent.getStringExtra("playerName");
-        int liveScore = previousIntent.getIntExtra("livescore", ScoreTimer.getInterval());
+        // Create Enemies
+        spriteEnemy = new Sprite();
+        heavyEnemy = new Heavy1();
+        createEnemies();
 
-        TextView gameDifficultyTextView = findViewById(R.id.gameDifficultyTextView);
-        gameDifficultyTextView.setText("Difficulty: " + difficulty);
-        TextView playerNameTextView = findViewById(R.id.playerNameTextView);
-        playerNameTextView.setText(playerName);
-        TextView livescoreTextView = findViewById(R.id.livescoreTextView);
-        livescoreTextView.setText("Score: " + liveScore);
-
+        // Create Player
         player = Player.getInstance();
-        sprite = (Sprite) EnemiesFactory.buildEnemies("Sprite");
-        heavy = (Heavy1) EnemiesFactory.buildEnemies("Heavy");
+        player.setHealth(100);
+        createPlayer();
 
-        ImageView playerImageView = findViewById(R.id.playerImageView);
-        int initialX = (getResources().getDisplayMetrics().widthPixels - playerImageView.getWidth()) / 2;
-        int initialY = (getResources().getDisplayMetrics().heightPixels - playerImageView.getHeight()) / 2;
-        player.setxPosition(initialX);
-        player.setyPosition(initialY);
-        playerImageView.setX(initialX);
-        playerImageView.setY(initialY);
-
-
-        Button buttonUp = findViewById(R.id.buttonUp);
-        Button buttonDown = findViewById(R.id.buttonDown);
-        Button buttonLeft = findViewById(R.id.buttonLeft);
-        Button buttonRight = findViewById(R.id.buttonRight);
-        int amount = 40;
-        MovementStrategyPattern up = new MoveUp();
-        buttonUp.setOnTouchListener((v, event) -> handleTouch(event, 0, up.move(amount)));
-        MovementStrategyPattern down = new MoveDown();
-        buttonDown.setOnTouchListener((v, event) -> handleTouch(event, 0, down.move(amount)));
-        MovementStrategyPattern left = new MoveLeft();
-        buttonLeft.setOnTouchListener((v, event) -> handleTouch(event, left.move(amount), 0));
-        MovementStrategyPattern right = new MoveRight();
-        buttonRight.setOnTouchListener((v, event) -> handleTouch(event, right.move(amount), 0));
-
-        RelativeLayout nextScreenLayout = findViewById(R.id.nextScreenLayout);
-        nextScreenLayout.setOnClickListener(v -> moveToNextScreen());
-
+        inheritProperties();
+        setDPADController();
+        ScoreTimer.start();
         moveEnemySprite();
         moveEnemyHeavy();
+        createExit();
+        startClockLoop();
+
+        // Move the player after creating it
+        movePlayer(1, 1);
+    }
+
+
+    private void startClockLoop() {
+        // task to be executed by the clock loop
+        Runnable clockRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (!gameOverFlag) {
+                    // Update the score
+                    updateScore();
+
+                    // Move enemies
+                    moveEnemySprite();
+                    moveEnemyHeavy();
+                    checkGameOver();
+
+                    // Schedule the next execution of the clock loop
+                    clockHandler.postDelayed(this, 100);
+                }// Adjust the delay as needed
+            }
+        };
+
+        // Start the clock loop
+        clockHandler.post(clockRunnable);
+    }
+
+    private void updateScore() {
+        // Update the score TextView
+        TextView livescoreTextView = findViewById(R.id.livescoreTextView);
+        livescoreTextView.setText("Score: " + ScoreTimer.getInterval());
+
+        // Update the health TextView
+        ProgressBar playerHealthProgressBar = findViewById(R.id.playerHealthProgressBar);
+        playerHealthProgressBar.setProgress(player.getHealth());
     }
 
     private boolean handleTouch(MotionEvent event, int deltaX, int deltaY) {
@@ -94,8 +124,6 @@ public class GameScreen1 extends AppCompatActivity {
         }
         return true;
     }
-
-
     private void movePlayer(int deltaX, int deltaY) {
         ImageView playerImageView = findViewById(R.id.playerImageView);
         int newX = player.getxPosition() + deltaX;
@@ -104,72 +132,97 @@ public class GameScreen1 extends AppCompatActivity {
         View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
         if (newX >= 0 && newX <= rootView.getWidth() - playerImageView.getWidth()) {
             player.setxPosition(newX);
-            playerImageView.setX(newX);
+            playerImageView.setX((float)newX);
         }
 
         if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
             player.setyPosition(newY);
-            playerImageView.setY(newY);
+            playerImageView.setY((float)newY);
         }
 
         RelativeLayout nextScreenLayout = findViewById(R.id.nextScreenLayout);
-        if (isViewOverlapping(playerImageView, nextScreenLayout)) {
+        if (CollisionManager.isViewOverlapping(playerImageView, nextScreenLayout)) {
             moveToNextScreen();
         }
 
         rootView.invalidate();
     }
     private void moveEnemySprite() {
-        ImageView playerImageView = findViewById(R.id.playerImageView);
-        double newX = sprite.move();
-        double newY = sprite.move();
+        ImageView enemyImageView1 = findViewById(R.id.enemyImageView1);
+
+        double newX = spriteEnemy.move();
+        double newY = spriteEnemy.getyPosition(); // No need to move in the y-direction
 
         View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
-        if (newX >= 0 && newX <= rootView.getWidth() - playerImageView.getWidth()) {
-            sprite.setxPosition(newX);
-            playerImageView.setX((float) newX);
+        if (newX >= 0 && newX <= rootView.getWidth() - enemyImageView1.getWidth()) {
+            enemyImageView1.setX((float) newX);
+            spriteEnemy.setxPosition(newX);
         }
 
-        if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
-            sprite.setyPosition(newY);
-            playerImageView.setY((float) newY);
+        if (newY >= 0 && newY <= rootView.getHeight() - enemyImageView1.getHeight()) {
+            enemyImageView1.setY((float) newY);
+            spriteEnemy.setyPosition(newY);
         }
-        //ADD COLLISION CODE HERE!!!!!!!
+        checkCollisions();
     }
+
+
     private void moveEnemyHeavy() {
-        ImageView playerImageView = findViewById(R.id.playerImageView);
-        double newX = heavy.move();
-        double newY = heavy.move();
+        ImageView enemyImageView2 = findViewById(R.id.enemyImageView2);
+
+        double newX = heavyEnemy.move();
+        double newY = heavyEnemy.getyPosition(); // No need to move in the y-direction
 
         View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
-        if (newX >= 0 && newX <= rootView.getWidth() - playerImageView.getWidth()) {
-            heavy.setxPosition(newX);
-            playerImageView.setX((float) newX);
+        if (newX >= 0 && newX <= rootView.getWidth() - enemyImageView2.getWidth()) {
+            enemyImageView2.setX((float) newX);
+            heavyEnemy.setxPosition(newX);
         }
 
-        if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
-            heavy.setyPosition(newY);
-            playerImageView.setY((float) newY);
+        if (newY >= 0 && newY <= rootView.getHeight() - enemyImageView2.getHeight()) {
+            enemyImageView2.setY((float) newY);
+            heavyEnemy.setyPosition(newY);
         }
-        //ADD COLLISION CODE HERE!!!!!!!
+        checkCollisions();
     }
 
-    private boolean isViewOverlapping(View firstView, View secondView) {
-        int[] firstPosition = new int[2];
-        int[] secondPosition = new int[2];
 
-        firstView.getLocationOnScreen(firstPosition);
-        secondView.getLocationOnScreen(secondPosition);
+    private void setDPADController() {
+        Button buttonUp = findViewById(R.id.buttonUp);
+        Button buttonDown = findViewById(R.id.buttonDown);
+        Button buttonLeft = findViewById(R.id.buttonLeft);
+        Button buttonRight = findViewById(R.id.buttonRight);
+        int amount = 40; // how much to move character
+        MovementStrategyPattern up = new MoveUp();
+        buttonUp.setOnTouchListener((v, event) -> handleTouch(event, 0, up.move(amount)));
+        MovementStrategyPattern down = new MoveDown();
+        buttonDown.setOnTouchListener((v, event) -> handleTouch(event, 0, down.move(amount)));
+        MovementStrategyPattern left = new MoveLeft();
+        buttonLeft.setOnTouchListener((v, event) -> handleTouch(event, left.move(amount), 0));
+        MovementStrategyPattern right = new MoveRight();
+        buttonRight.setOnTouchListener((v, event) -> handleTouch(event, right.move(amount), 0));
+    }
 
-        int firstX = firstPosition[0];
-        int firstY = firstPosition[1];
-        int secondX = secondPosition[0];
-        int secondY = secondPosition[1];
+    private void createPlayer() {
+        ImageView playerImageView = findViewById(R.id.playerImageView);
+        int initialX = (getResources().getDisplayMetrics().widthPixels - playerImageView.getWidth()) / 2;
+        int initialY = (getResources().getDisplayMetrics().heightPixels - playerImageView.getHeight()) / 2;
+        player.setxPosition(initialX);
+        player.setyPosition(initialY);
+        playerImageView.setX(initialX);
+        playerImageView.setY(initialY);
+    }
 
-        return firstX < secondX + secondView.getWidth() &&
-                firstX + firstView.getWidth() > secondX &&
-                firstY < secondY + secondView.getHeight() &&
-                firstY + firstView.getHeight() > secondY;
+    private void createEnemies() {
+        //Sprite
+        spriteEnemy = new Sprite();
+        ImageView enemyImageView1 = findViewById(R.id.enemyImageView1);
+        spriteEnemy.setInitialPosition(enemyImageView1.getX(), (getResources().getDisplayMetrics().heightPixels - playerImageView.getHeight()) / 3);
+
+        //Heavy1
+        heavyEnemy = new Heavy1();
+        ImageView enemyImageView2 = findViewById(R.id.enemyImageView2);
+        heavyEnemy.setInitialPosition(enemyImageView2.getX(), (getResources().getDisplayMetrics().heightPixels - playerImageView.getHeight()) / 4);
     }
 
     private void moveToNextScreen() {
@@ -183,5 +236,45 @@ public class GameScreen1 extends AppCompatActivity {
         intent.putExtra("playerName", playerName);
         intent.putExtra("livescore", liveScore);
         startActivity(intent);
+    }
+
+    private void inheritProperties() {
+        Intent previousIntent = getIntent();
+        String difficulty = previousIntent.getStringExtra("difficulty");
+        TextView gameDifficultyTextView = findViewById(R.id.gameDifficultyTextView);
+        gameDifficultyTextView.setText("Difficulty: " + difficulty);
+
+        String playerName = previousIntent.getStringExtra("playerName");
+        TextView playerNameTextView = findViewById(R.id.playerNameTextView);
+        playerNameTextView.setText(playerName);
+
+        int liveScore = previousIntent.getIntExtra("livescore", ScoreTimer.getInterval());
+        TextView livescoreTextView = findViewById(R.id.livescoreTextView);
+        livescoreTextView.setText("Score: " + liveScore);
+    }
+
+    private void createExit() {
+        RelativeLayout nextScreenLayout = findViewById(R.id.nextScreenLayout);
+        nextScreenLayout.setOnClickListener(v -> moveToNextScreen());
+    }
+
+    private void checkCollisions() {
+        CollisionManager.checkCollisions(player, spriteEnemy, heavyEnemy, playerImageView, enemyImageView1, enemyImageView2);
+    }
+
+    private void checkGameOver() {
+        if (player.getHealth() <= 0 && !gameOverFlag) {
+            gameOverFlag = true; // Set the flag to true to avoid calling the game over screen multiple times
+            // Player's health is zero, show game over screen
+            showGameOverScreen();
+        }
+    }
+
+    private void showGameOverScreen() {
+        // You can start a new activity for the game over screen
+        Intent gameOverIntent = new Intent(GameScreen1.this, GameOverActivity.class);
+        startActivity(gameOverIntent);
+        clockHandler.removeCallbacksAndMessages(null);
+        finish();
     }
 }
