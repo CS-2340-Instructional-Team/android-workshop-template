@@ -38,6 +38,14 @@ public class GameScreen3 extends AppCompatActivity {
     private final Handler clockHandler = new Handler(Looper.myLooper());
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            // Move the player to its initial position
+            movePlayer(0, 0);
+        }
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen3);
@@ -60,6 +68,8 @@ public class GameScreen3 extends AppCompatActivity {
         moveEnemySprite();
         moveEnemyHeavy();
         createExit();
+        movePlayer(1, 1);
+        createPlayer();
         startClockLoop();
     }
 
@@ -131,7 +141,6 @@ public class GameScreen3 extends AppCompatActivity {
         if (CollisionManager.isViewOverlapping(playerImageView, nextScreenLayout)) {
             moveToNextScreen();
         }
-
         rootView.invalidate();
     }
     private void moveEnemySprite() {
@@ -224,7 +233,6 @@ public class GameScreen3 extends AppCompatActivity {
         intent.putExtra("playerName", playerName);
         intent.putExtra("livescore", liveScore);
         startActivity(intent);
-        finish();
     }
 
     private void inheritProperties() {

@@ -32,25 +32,34 @@ public class GameScreen1 extends AppCompatActivity {
     private boolean gameOverFlag = false; // Add this flag
     private boolean moveButtonPressed = false;
     private final Handler clockHandler = new Handler(Looper.myLooper()); //Activity Loop for screen
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            // Move the player to its initial position
+            movePlayer(0, 0);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen1);
 
-        //Get active elements
+        // Get active elements
         playerImageView = findViewById(R.id.playerImageView);
         enemyImageView1 = findViewById(R.id.enemyImageView1);
         enemyImageView2 = findViewById(R.id.enemyImageView2);
 
-        //Get timer
+        // Get timer
         ScoreTimer.setCurrentGameScreenInstance(this);
 
-        //Create Enemies
+        // Create Enemies
         spriteEnemy = new Sprite();
         heavyEnemy = new Heavy1();
         createEnemies();
 
-        //create Player
+        // Create Player
         player = Player.getInstance();
         player.setHealth(100);
         createPlayer();
@@ -62,7 +71,11 @@ public class GameScreen1 extends AppCompatActivity {
         moveEnemyHeavy();
         createExit();
         startClockLoop();
+
+        // Move the player after creating it
+        movePlayer(1, 1);
     }
+
 
     private void startClockLoop() {
         // task to be executed by the clock loop
@@ -223,7 +236,6 @@ public class GameScreen1 extends AppCompatActivity {
         intent.putExtra("playerName", playerName);
         intent.putExtra("livescore", liveScore);
         startActivity(intent);
-        finish();
     }
 
     private void inheritProperties() {

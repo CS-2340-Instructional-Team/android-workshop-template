@@ -54,7 +54,7 @@ public class Heavy3 implements Enemies, CollisionObserver {
 
     @Override
     public double getDamage() {
-        return 60;
+        return 6;
     }
 
     public void setInitialPosition(double initialX, double initialY) {

@@ -25,7 +25,7 @@ public class Heavy2 implements Enemies, CollisionObserver {
     @Override
     public double move() {
         // Always move downward by a fixed amount
-        double downwardMovement = 5.0;
+        double downwardMovement = 1.0;
 
         yPosition = initialYPosition + downwardMovement;
 
