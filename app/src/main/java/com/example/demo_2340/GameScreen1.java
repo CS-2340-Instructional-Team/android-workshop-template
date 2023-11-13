@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.demo_2340.CollisionObserver.CollisionManager;
 import com.example.demo_2340.Enemies_Implementation.Enemies;
-import com.example.demo_2340.Enemies_Implementation.EnemiesFactory;
 import com.example.demo_2340.Enemies_Implementation.Heavy1;
 import com.example.demo_2340.Enemies_Implementation.Sprite;
 import com.example.demo_2340.Player_Movement.MoveDown;
@@ -30,10 +29,12 @@ public class GameScreen1 extends AppCompatActivity {
     private ImageView playerImageView;
     private ImageView enemyImageView1;
     private ImageView enemyImageView2;
+    private boolean gameOverFlag = false; // Add this flag
     private boolean moveButtonPressed = false;
     private final Handler clockHandler = new Handler(Looper.myLooper()); //Activity Loop for screen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        player.setHealth(100);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen1);
 
@@ -46,8 +47,8 @@ public class GameScreen1 extends AppCompatActivity {
         ScoreTimer.setCurrentGameScreenInstance(this);
 
         //Create Enemies
-        spriteEnemy = (Sprite) EnemiesFactory.buildEnemies("Sprite");
-        heavyEnemy = (Heavy1) EnemiesFactory.buildEnemies("Heavy1");
+        spriteEnemy = new Sprite();
+        heavyEnemy = new Heavy1();
         createEnemies();
 
         //create Player
@@ -68,15 +69,18 @@ public class GameScreen1 extends AppCompatActivity {
         Runnable clockRunnable = new Runnable() {
             @Override
             public void run() {
-                // Update the score
-                updateScore();
+                if (!gameOverFlag) {
+                    // Update the score
+                    updateScore();
 
-                // Move enemies
-                moveEnemySprite();
-                moveEnemyHeavy();
+                    // Move enemies
+                    moveEnemySprite();
+                    moveEnemyHeavy();
+                    checkGameOver();
 
-                // Schedule the next execution of the clock loop
-                clockHandler.postDelayed(this, 100); // Adjust the delay as needed
+                    // Schedule the next execution of the clock loop
+                    clockHandler.postDelayed(this, 100);
+                }// Adjust the delay as needed
             }
         };
 
@@ -149,6 +153,7 @@ public class GameScreen1 extends AppCompatActivity {
         checkCollisions();
     }
 
+
     private void moveEnemyHeavy() {
         ImageView enemyImageView2 = findViewById(R.id.enemyImageView2);
 
@@ -191,22 +196,21 @@ public class GameScreen1 extends AppCompatActivity {
         int initialY = (getResources().getDisplayMetrics().heightPixels - playerImageView.getHeight()) / 2;
         player.setxPosition(initialX);
         player.setyPosition(initialY);
+        player.setHealth(100);
         playerImageView.setX(initialX);
         playerImageView.setY(initialY);
     }
 
     private void createEnemies() {
+        //Sprite
         spriteEnemy = new Sprite();
-        spriteEnemy.setInitialPosition(
-                findViewById(R.id.enemyImageView1).getX(),
-                findViewById(R.id.enemyImageView1).getY()
-        );
-        //Heavy2
+        ImageView enemyImageView1 = findViewById(R.id.enemyImageView1);
+        spriteEnemy.setInitialPosition(enemyImageView1.getX(), (getResources().getDisplayMetrics().heightPixels - playerImageView.getHeight()) / 3);
+
+        //Heavy1
         heavyEnemy = new Heavy1();
-        heavyEnemy.setInitialPosition(
-                findViewById(R.id.enemyImageView2).getX(),
-                findViewById(R.id.enemyImageView2).getY()
-        );
+        ImageView enemyImageView2 = findViewById(R.id.enemyImageView2);
+        heavyEnemy.setInitialPosition(enemyImageView2.getX(), (getResources().getDisplayMetrics().heightPixels - playerImageView.getHeight()) / 4);
     }
 
     private void moveToNextScreen() {
@@ -220,6 +224,7 @@ public class GameScreen1 extends AppCompatActivity {
         intent.putExtra("playerName", playerName);
         intent.putExtra("livescore", liveScore);
         startActivity(intent);
+        finish();
     }
 
     private void inheritProperties() {
@@ -244,5 +249,21 @@ public class GameScreen1 extends AppCompatActivity {
 
     private void checkCollisions() {
         CollisionManager.checkCollisions(player, spriteEnemy, heavyEnemy, playerImageView, enemyImageView1, enemyImageView2);
+    }
+
+    private void checkGameOver() {
+        if (player.getHealth() <= 0 && !gameOverFlag) {
+            gameOverFlag = true; // Set the flag to true to avoid calling the game over screen multiple times
+            // Player's health is zero, show game over screen
+            showGameOverScreen();
+        }
+    }
+
+    private void showGameOverScreen() {
+        // You can start a new activity for the game over screen
+        Intent gameOverIntent = new Intent(GameScreen1.this, GameOverActivity.class);
+        startActivity(gameOverIntent);
+        clockHandler.removeCallbacksAndMessages(null);
+        finish();
     }
 }

@@ -25,7 +25,7 @@ public class Heavy2 implements Enemies, CollisionObserver {
     @Override
     public double move() {
         // Always move downward by a fixed amount
-        double downwardMovement = 10.0;
+        double downwardMovement = 5.0;
 
         yPosition = initialYPosition + downwardMovement;
 
@@ -50,6 +50,11 @@ public class Heavy2 implements Enemies, CollisionObserver {
     @Override
     public void setyPosition(double yPosition) {
         this.yPosition = yPosition;
+    }
+
+    @Override
+    public double getDamage() {
+        return 5;
     }
 
     @Override

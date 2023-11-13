@@ -12,6 +12,8 @@ public interface Enemies {
 
     void setyPosition(double yPosition);
 
+    double getDamage();
+
     void setInitialPosition(double x, double y);
 
     void onCollisionDetected(int i);

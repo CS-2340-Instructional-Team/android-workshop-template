@@ -62,7 +62,9 @@ public class Player implements CollisionObserver {
         return health;
     }
 
-
+    public void setHealth(int h) {
+        health = h;
+    }
     private void endGame() {
 
     }

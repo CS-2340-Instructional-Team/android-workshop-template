@@ -53,6 +53,11 @@ public class Heavy1 implements Enemies, CollisionObserver {
         this.yPosition = yPosition;
     }
 
+    @Override
+    public double getDamage() {
+        return 10;
+    }
+
     public void setInitialPosition(double initialX, double initialY) {
         this.initialXPosition = initialX;
         this.initialYPosition = initialY;

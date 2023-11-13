@@ -25,7 +25,7 @@ public class Sprite implements Enemies, CollisionObserver {
     @Override
     public double move() {
         // Always move to the right by a fixed amount
-        double rightwardMovement = 10.0;
+        double rightwardMovement = 15.0;
 
         yPosition += rightwardMovement;
 
@@ -50,6 +50,11 @@ public class Sprite implements Enemies, CollisionObserver {
     @Override
     public void setyPosition(double yPosition) {
         this.yPosition = yPosition;
+    }
+
+    @Override
+    public double getDamage() {
+        return 2;
     }
 
 
