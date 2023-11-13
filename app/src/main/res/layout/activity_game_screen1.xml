@@ -37,7 +37,7 @@
 
 
     <ImageView
-        android:id="@+id/enemyImageView1"
+        android:id="@+id/enemyImageView2"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/heavy1"
@@ -49,10 +49,10 @@
         app:layout_constraintVertical_bias="0.574" />
 
     <ImageView
-        android:id="@+id/enemyImageView2"
+        android:id="@+id/enemyImageView1"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/heavy2"
+        android:src="@drawable/sprite1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.124"
