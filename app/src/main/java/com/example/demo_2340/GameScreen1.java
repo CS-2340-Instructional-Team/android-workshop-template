@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.demo_2340.CollisionObserver.CollisionManager;
 import com.example.demo_2340.Enemies_Implementation.Enemies;
+import com.example.demo_2340.Enemies_Implementation.EnemiesFactory;
 import com.example.demo_2340.Enemies_Implementation.Heavy1;
 import com.example.demo_2340.Enemies_Implementation.Sprite;
 import com.example.demo_2340.Player_Movement.MoveDown;
@@ -44,8 +46,8 @@ public class GameScreen1 extends AppCompatActivity {
         ScoreTimer.setCurrentGameScreenInstance(this);
 
         //Create Enemies
-        spriteEnemy = new Sprite();
-        heavyEnemy = new Heavy1();
+        spriteEnemy = (Sprite) EnemiesFactory.buildEnemies("Sprite");
+        heavyEnemy = (Heavy1) EnemiesFactory.buildEnemies("Heavy1");
         createEnemies();
 
         //create Player
@@ -122,7 +124,7 @@ public class GameScreen1 extends AppCompatActivity {
         }
 
         RelativeLayout nextScreenLayout = findViewById(R.id.nextScreenLayout);
-        if (isViewOverlapping(playerImageView, nextScreenLayout)) {
+        if (CollisionManager.isViewOverlapping(playerImageView, nextScreenLayout)) {
             moveToNextScreen();
         }
 
@@ -165,23 +167,7 @@ public class GameScreen1 extends AppCompatActivity {
         }
         checkCollisions();
     }
-    private boolean isViewOverlapping(View firstView, View secondView) {
-        int[] firstPosition = new int[2];
-        int[] secondPosition = new int[2];
 
-        firstView.getLocationOnScreen(firstPosition);
-        secondView.getLocationOnScreen(secondPosition);
-
-        int firstX = firstPosition[0];
-        int firstY = firstPosition[1];
-        int secondX = secondPosition[0];
-        int secondY = secondPosition[1];
-
-        return firstX < secondX + secondView.getWidth() &&
-                firstX + firstView.getWidth() > secondX &&
-                firstY < secondY + secondView.getHeight() &&
-                firstY + firstView.getHeight() > secondY;
-    }
 
     private void setDPADController() {
         Button buttonUp = findViewById(R.id.buttonUp);
@@ -257,14 +243,6 @@ public class GameScreen1 extends AppCompatActivity {
     }
 
     private void checkCollisions() {
-        if (isViewOverlapping(playerImageView, enemyImageView1)) {
-            player.onCollisionDetected(3);
-            spriteEnemy.onCollisionDetected(0);
-        }
-
-        if (isViewOverlapping(playerImageView, enemyImageView2)) {
-            player.onCollisionDetected(10);
-            heavyEnemy.onCollisionDetected(0);
-        }
+        CollisionManager.checkCollisions(player, spriteEnemy, heavyEnemy, playerImageView, enemyImageView1, enemyImageView2);
     }
 }
