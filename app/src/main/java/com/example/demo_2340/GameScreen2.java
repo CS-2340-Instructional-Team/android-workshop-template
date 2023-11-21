@@ -16,7 +16,10 @@ import android.widget.TextView;
 
 import com.example.demo_2340.CollisionObserver.CollisionManager;
 import com.example.demo_2340.Enemies_Implementation.Enemies;
-import com.example.demo_2340.Enemies_Implementation.EnemiesFactory;
+import com.example.demo_2340.Enemies_Implementation.Heavy1;
+import com.example.demo_2340.Enemies_Implementation.Heavy2;
+import com.example.demo_2340.Enemies_Implementation.Heavy3;
+import com.example.demo_2340.Enemies_Implementation.Sprite;
 import com.example.demo_2340.Player_Movement.MoveDown;
 import com.example.demo_2340.Player_Movement.MoveLeft;
 import com.example.demo_2340.Player_Movement.MoveRight;
@@ -32,7 +35,7 @@ public class GameScreen2 extends AppCompatActivity {
     private ImageView enemyImageView2;
     private boolean gameOverFlag = false; // Add this flag
     private boolean moveButtonPressed = false;
-    private final Handler clockHandler = new Handler(Looper.myLooper()); //Activity Loop for screen
+    private final Handler clockHandler = new Handler(Looper.myLooper());
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -47,19 +50,16 @@ public class GameScreen2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen2);
 
-        // Get active elements
+        //Get active elements
         playerImageView = findViewById(R.id.playerImageView);
         enemyImageView1 = findViewById(R.id.enemyImageView1);
         enemyImageView2 = findViewById(R.id.enemyImageView2);
 
-        // Create Enemies
-        spriteEnemy = EnemiesFactory.buildEnemies("Sprite");
-        heavyEnemy = EnemiesFactory.buildEnemies("Heavy");
+        spriteEnemy = new Heavy3();
+        heavyEnemy = new Heavy2();
         createEnemies();
 
-        // Create Player
         player = Player.getInstance();
-        player.setHealth(100);
         createPlayer();
 
         inheritProperties();
@@ -68,10 +68,9 @@ public class GameScreen2 extends AppCompatActivity {
         moveEnemySprite();
         moveEnemyHeavy();
         createExit();
-        startClockLoop();
-
-        // Move the player after creating it
         movePlayer(1, 1);
+        createPlayer();
+        startClockLoop();
     }
 
     private void startClockLoop() {
@@ -212,12 +211,14 @@ public class GameScreen2 extends AppCompatActivity {
 
     private void createEnemies() {
         //Sprite
+        spriteEnemy = new Sprite();
         ImageView enemyImageView1 = findViewById(R.id.enemyImageView1);
         spriteEnemy.setInitialPosition(enemyImageView1.getX(),
                 (getResources().getDisplayMetrics().heightPixels
                         - playerImageView.getHeight()) / 3);
 
         //Heavy1
+        heavyEnemy = new Heavy1();
         ImageView enemyImageView2 = findViewById(R.id.enemyImageView2);
         heavyEnemy.setInitialPosition(enemyImageView2.getX(),
                 (getResources().getDisplayMetrics().heightPixels
@@ -225,7 +226,6 @@ public class GameScreen2 extends AppCompatActivity {
     }
 
     private void moveToNextScreen() {
-        // Retrieve necessary data
         Intent previousIntent = getIntent();
         String difficulty = previousIntent.getStringExtra("difficulty");
         String playerName = previousIntent.getStringExtra("playerName");
@@ -260,14 +260,14 @@ public class GameScreen2 extends AppCompatActivity {
     }
 
     private void checkCollisions() {
-        CollisionManager.checkCollisions(player, spriteEnemy, heavyEnemy,
-                playerImageView, enemyImageView1, enemyImageView2);
+        CollisionManager.checkCollisions(player, spriteEnemy,
+                heavyEnemy, playerImageView, enemyImageView1, enemyImageView2);
     }
 
     private void checkGameOver() {
         if (player.getHealth() <= 0 && !gameOverFlag) {
-            gameOverFlag = true; // Set the flag to true to avoid calling
-            // the game over screen multiple times
+            gameOverFlag = true; // Set the flag to true to avoid
+            // calling the game over screen multiple times
             // Player's health is zero, show game over screen
             showGameOverScreen();
         }
