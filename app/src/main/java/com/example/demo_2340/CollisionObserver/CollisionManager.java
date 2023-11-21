@@ -11,15 +11,17 @@ import com.example.demo_2340.Player;
 
 public class CollisionManager {
 
-    public static void checkCollisions(Player player, Enemies enemy1, Enemies enemy2, ImageView playerImageView, ImageView enemyImageView1, ImageView enemyImageView2) {
+    public static void checkCollisions(Player player, Enemies enemy1,
+                                       Enemies enemy2, ImageView playerImageView,
+                                       ImageView enemyImageView1, ImageView enemyImageView2) {
 
         if (isViewOverlapping(playerImageView, enemyImageView1)) {
-            player.onCollisionDetected((int)enemy1.getDamage());
+            player.onCollisionDetected((int) enemy1.getDamage());
             enemy1.onCollisionDetected(0);
         }
 
         if (isViewOverlapping(playerImageView, enemyImageView2)) {
-            player.onCollisionDetected((int)enemy2.getDamage());
+            player.onCollisionDetected((int) enemy2.getDamage());
             enemy2.onCollisionDetected(0);
         }
     }
@@ -36,10 +38,10 @@ public class CollisionManager {
         int secondX = secondPosition[0];
         int secondY = secondPosition[1];
 
-        return firstX < secondX + secondView.getWidth() &&
-                firstX + firstView.getWidth() > secondX &&
-                firstY < secondY + secondView.getHeight() &&
-                firstY + firstView.getHeight() > secondY;
+        return firstX < secondX + secondView.getWidth()
+                && firstX + firstView.getWidth() > secondX
+                && firstY < secondY + secondView.getHeight()
+                && firstY + firstView.getHeight() > secondY;
     }
 }
 
