@@ -1,7 +1,4 @@
 package com.example.demo_2340;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,9 +11,12 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.demo_2340.CollisionObserver.CollisionManager;
 import com.example.demo_2340.Enemies_Implementation.Enemies;
-import com.example.demo_2340.Enemies_Implementation.EnemiesFactory;
+import com.example.demo_2340.Enemies_Implementation.Heavy1;
+import com.example.demo_2340.Enemies_Implementation.Sprite;
 import com.example.demo_2340.Player_Movement.MoveDown;
 import com.example.demo_2340.Player_Movement.MoveLeft;
 import com.example.demo_2340.Player_Movement.MoveRight;
@@ -55,8 +55,8 @@ public class GameScreen1 extends AppCompatActivity {
         ScoreTimer.setCurrentGameScreenInstance(this);
 
         // Create Enemies
-        spriteEnemy = EnemiesFactory.buildEnemies("Sprite");
-        heavyEnemy = EnemiesFactory.buildEnemies("Heavy");
+        spriteEnemy = new Sprite();
+        heavyEnemy = new Heavy1();
         createEnemies();
 
         // Create Player
@@ -215,12 +215,14 @@ public class GameScreen1 extends AppCompatActivity {
 
     private void createEnemies() {
         //Sprite
+        spriteEnemy = new Sprite();
         ImageView enemyImageView1 = findViewById(R.id.enemyImageView1);
         spriteEnemy.setInitialPosition(enemyImageView1.getX(),
                 (getResources().getDisplayMetrics().heightPixels
                         - playerImageView.getHeight()) / 3);
 
         //Heavy1
+        heavyEnemy = new Heavy1();
         ImageView enemyImageView2 = findViewById(R.id.enemyImageView2);
         heavyEnemy.setInitialPosition(enemyImageView2.getX(),
                 (getResources().getDisplayMetrics().heightPixels
@@ -233,7 +235,6 @@ public class GameScreen1 extends AppCompatActivity {
         String playerName = previousIntent.getStringExtra("playerName");
         int liveScore = previousIntent.getIntExtra("livescore", ScoreTimer.getInterval());
 
-        // Start the next activity
         Intent intent = new Intent(GameScreen1.this, GameScreen2.class);
         intent.putExtra("difficulty", difficulty);
         intent.putExtra("playerName", playerName);
