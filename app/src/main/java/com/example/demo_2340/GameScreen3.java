@@ -16,9 +16,7 @@ import android.widget.TextView;
 
 import com.example.demo_2340.CollisionObserver.CollisionManager;
 import com.example.demo_2340.Enemies_Implementation.Enemies;
-import com.example.demo_2340.Enemies_Implementation.Heavy1;
-import com.example.demo_2340.Enemies_Implementation.Heavy2;
-import com.example.demo_2340.Enemies_Implementation.Sprite;
+import com.example.demo_2340.Enemies_Implementation.EnemiesFactory;
 import com.example.demo_2340.Player_Movement.MoveDown;
 import com.example.demo_2340.Player_Movement.MoveLeft;
 import com.example.demo_2340.Player_Movement.MoveRight;
@@ -32,9 +30,9 @@ public class GameScreen3 extends AppCompatActivity {
     private ImageView playerImageView;
     private ImageView enemyImageView1;
     private ImageView enemyImageView2;
-    private boolean moveButtonPressed = false;
     private boolean gameOverFlag = false; // Add this flag
-    private final Handler clockHandler = new Handler(Looper.myLooper());
+    private boolean moveButtonPressed = false;
+    private final Handler clockHandler = new Handler(Looper.myLooper()); //Activity Loop for screen
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -54,11 +52,14 @@ public class GameScreen3 extends AppCompatActivity {
         enemyImageView1 = findViewById(R.id.enemyImageView1);
         enemyImageView2 = findViewById(R.id.enemyImageView2);
 
-        spriteEnemy = new Sprite();
-        heavyEnemy = new Heavy2();
+        // Create Enemies
+        spriteEnemy = EnemiesFactory.buildEnemies("Sprite");
+        heavyEnemy = EnemiesFactory.buildEnemies("Heavy");
         createEnemies();
 
+        // Create Player
         player = Player.getInstance();
+        player.setHealth(100);
         createPlayer();
 
         inheritProperties();
@@ -67,9 +68,10 @@ public class GameScreen3 extends AppCompatActivity {
         moveEnemySprite();
         moveEnemyHeavy();
         createExit();
-        movePlayer(1, 1);
-        createPlayer();
         startClockLoop();
+
+        // Move the player after creating it
+        movePlayer(1, 1);
     }
 
     private void startClockLoop() {
@@ -138,6 +140,7 @@ public class GameScreen3 extends AppCompatActivity {
         if (CollisionManager.isViewOverlapping(playerImageView, nextScreenLayout)) {
             moveToNextScreen();
         }
+
         rootView.invalidate();
     }
     private void moveEnemySprite() {
@@ -209,14 +212,12 @@ public class GameScreen3 extends AppCompatActivity {
 
     private void createEnemies() {
         //Sprite
-        spriteEnemy = new Sprite();
         ImageView enemyImageView1 = findViewById(R.id.enemyImageView1);
         spriteEnemy.setInitialPosition(enemyImageView1.getX(),
                 (getResources().getDisplayMetrics().heightPixels
                         - playerImageView.getHeight()) / 5);
 
         //Heavy1
-        heavyEnemy = new Heavy1();
         ImageView enemyImageView2 = findViewById(R.id.enemyImageView2);
         heavyEnemy.setInitialPosition(enemyImageView2.getX(),
                 (getResources().getDisplayMetrics().heightPixels
@@ -265,8 +266,8 @@ public class GameScreen3 extends AppCompatActivity {
 
     private void checkGameOver() {
         if (player.getHealth() <= 0 && !gameOverFlag) {
-            gameOverFlag = true; // Set the flag to true to avoid
-            // calling the game over screen multiple times
+            gameOverFlag = true; // Set the flag to true to avoid calling
+            // the game over screen multiple times
             // Player's health is zero, show game over screen
             showGameOverScreen();
         }
