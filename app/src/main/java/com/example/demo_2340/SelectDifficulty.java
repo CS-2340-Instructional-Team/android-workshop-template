@@ -7,8 +7,6 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SelectDifficulty extends AppCompatActivity {
@@ -43,7 +41,8 @@ public class SelectDifficulty extends AppCompatActivity {
                     // Start the target activity
                     startActivity(intent);
                 } else {
-                    Toast.makeText(SelectDifficulty.this, "Please Select a Difficulty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelectDifficulty.this,
+                            "Please Select a Difficulty", Toast.LENGTH_SHORT).show();
                 }
             }
         });

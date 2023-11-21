@@ -34,7 +34,8 @@ public class SelectCharacter extends AppCompatActivity {
                     String selectedCharacter = selectedRadioButton.getText().toString();
 
                     // Display a toast message with the selected character
-                    Toast.makeText(SelectCharacter.this, "Selected Character: " + selectedCharacter, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelectCharacter.this,
+                            "Selected Character: " + selectedCharacter, Toast.LENGTH_SHORT).show();
 
                     // Start a new activity (SelectDifficultyActivity)
                     Intent intent = new Intent(SelectCharacter.this, SelectDifficulty.class);
@@ -42,7 +43,8 @@ public class SelectCharacter extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     // No character selected
-                    Toast.makeText(SelectCharacter.this, "Please Select a Character", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelectCharacter.this,
+                            "Please Select a Character", Toast.LENGTH_SHORT).show();
                 }
             }
         });

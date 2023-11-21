@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.demo_2340.R; // Replace with the actual package name of your app
 import java.util.List;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
@@ -33,7 +32,8 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.leaderboard_item, parent, false); // Replace with your actual layout file
+                .inflate(R.layout.leaderboard_item,
+                        parent, false); // Replace with your actual layout file
         return new ViewHolder(view);
     }
 
@@ -53,15 +53,17 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView playerNameTextView;
-        public TextView scoreTextView;
+        private TextView playerNameTextView;
+        private TextView scoreTextView;
 
         //public TextView scoreDateView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            playerNameTextView = itemView.findViewById(R.id.playerNameTextView); // Replace with the actual view IDs
-            scoreTextView = itemView.findViewById(R.id.scoreTextView); // Replace with the actual view IDs
+            playerNameTextView = itemView.findViewById(R.id.playerNameTextView);
+            // Replace with the actual view IDs
+            scoreTextView = itemView.findViewById(R.id.scoreTextView);
+            // Replace with the actual view IDs
             //scoreDateView = itemView.findViewById(R.id.scoreDateView);
         }
     }
