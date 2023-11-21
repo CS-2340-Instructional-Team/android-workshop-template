@@ -1,8 +1,6 @@
 package com.example.demo_2340;
 
 import android.os.Handler;
-import android.widget.TextView;
-
 public class ScoreTimer {
     private static int interval = 1000; // Initial interval (in milliseconds)
     private static Handler handler;
@@ -20,7 +18,8 @@ public class ScoreTimer {
                     handler.removeCallbacks(this); // Stop the task
                 } else {
                     interval--;
-                    handler.postDelayed(this, 1000); // Schedule the task to run again after 1 second
+                    handler.postDelayed(this,
+                            1000); // Schedule the task to run again after 1 second
                 }
             }
         };
