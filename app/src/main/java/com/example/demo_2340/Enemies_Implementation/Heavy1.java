@@ -38,7 +38,6 @@ public class Heavy1 implements Enemies, CollisionObserver {
         } else {
             direc = "Down";
         }
-        return movement;
 
         // Always move to the right by a fixed amount
         double rightwardMovement = 10.0;
