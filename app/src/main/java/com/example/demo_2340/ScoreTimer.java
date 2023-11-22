@@ -2,7 +2,8 @@ package com.example.demo_2340;
 
 import android.os.Handler;
 public class ScoreTimer {
-    private static int interval = 1000; // Initial interval (in milliseconds)
+    private static int intitinterval = 1000;// Initial interval (in milliseconds)
+    private static int interval = intitinterval;
     private static Handler handler;
     private static Runnable runnable;
 
@@ -43,6 +44,6 @@ public class ScoreTimer {
     }
 
     public static void reset() {
-        interval = 1000; // Reset the timer task
+        interval = intitinterval; // Reset the timer task
     }
 }
