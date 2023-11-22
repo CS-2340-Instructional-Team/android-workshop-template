@@ -16,20 +16,37 @@ public class Heavy1 implements Enemies, CollisionObserver {
         this.xPosition = initialXPosition;
         this.yPosition = initialYPosition;
     }
-
-    @Override
+  
+    private double randomMultiplier = 10.0;
+    private int rightBound = 7;
+    private int leftBound = 5;
+    private int upBound = 3;
+  
     public String getType() {
         return type;
     }
 
-    @Override
     public double move() {
+        double movement = Math.random() * randomMultiplier;
+        String direc;
+        if (movement <= randomMultiplier && movement > rightBound) {
+            direc = "Right";
+        } else if (movement <= rightBound && movement > leftBound) {
+            direc = "Left";
+        } else if (movement <= leftBound && movement > upBound) {
+            direc = "Up";
+        } else {
+            direc = "Down";
+        }
+        return movement;
+
         // Always move to the right by a fixed amount
         double rightwardMovement = 10.0;
 
         xPosition += rightwardMovement;
 
         return xPosition;
+
     }
 
 
