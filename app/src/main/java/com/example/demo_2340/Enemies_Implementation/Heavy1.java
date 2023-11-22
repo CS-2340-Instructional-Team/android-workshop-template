@@ -9,17 +9,21 @@ public class Heavy1 implements Enemies {
         this.yPosition = 0;
         type = "Heavy";
     }
+    private double randomMultiplier = 10.0;
+    private int rightBound = 7;
+    private int leftBound = 5;
+    private int upBound = 3;
     public String getType(){
         return type;
     }
     public double move() {
-        double movement = Math.random() * 10.0;
+        double movement = Math.random() * randomMultiplier;
         String direc;
-        if (movement <= 10.0 && movement > 7) {
+        if (movement <= randomMultiplier && movement > rightBound) {
             direc = "Right";
-        } else if (movement <= 7 && movement > 5) {
+        } else if (movement <= rightBound && movement > leftBound) {
             direc = "Left";
-        } else if (movement <= 5 && movement > 3) {
+        } else if (movement <= leftBound && movement > upBound) {
             direc = "Up";
         } else {
             direc = "Down";
