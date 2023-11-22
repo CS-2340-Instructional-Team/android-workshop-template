@@ -1,8 +1,6 @@
 package com.example.demo_2340;
 
 import android.os.Handler;
-import android.widget.TextView;
-
 public class ScoreTimer {
     private static int intitinterval = 1000;// Initial interval (in milliseconds)
     private static int interval = intitinterval;
@@ -21,22 +19,12 @@ public class ScoreTimer {
                     handler.removeCallbacks(this); // Stop the task
                 } else {
                     interval--;
-                    handler.postDelayed(this, 1000); // Schedule the task to run again after 1 second
+                    handler.postDelayed(this,
+                            1000); // Schedule the task to run again after 1 second
                 }
             }
         };
         handler.postDelayed(runnable, 1000); // Start the task immediately (1-second delay)
-    }
-
-    private static void updateScore() {
-        // Update the score
-        int liveScore = getInterval();
-        if (currentGameScreenInstance != null) {
-            currentGameScreenInstance.runOnUiThread(() -> {
-                TextView livescoreTextView = currentGameScreenInstance.findViewById(R.id.livescoreTextView);
-                livescoreTextView.setText("Score: " + liveScore);
-            });
-        }
     }
 
     public static void setCurrentGameScreenInstance(GameScreen1 gameScreen1) {

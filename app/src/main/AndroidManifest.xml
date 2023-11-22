@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.S0">
         <activity
+            android:name=".GameOverActivity"
+            android:exported="false" />
+        <activity
             android:name=".EndScreen"
             android:exported="false" />
         <activity

@@ -1,9 +1,5 @@
 package com.example.demo_2340;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 public class LeaderboardItem {
     private String playerName;
     private int score;
