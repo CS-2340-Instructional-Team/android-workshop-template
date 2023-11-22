@@ -8,11 +8,13 @@ public class Sprite implements Enemies, CollisionObserver {
     private double initialYPosition;
     private double xPosition;
     private double yPosition;
+    private double initialxcord = 0;
+    private double initialycord = 0;
 
     public Sprite() {
         type = "Sprite";
-        this.initialXPosition = 0;
-        this.initialYPosition = 0;
+        this.initialXPosition = initialxcord;
+        this.initialYPosition = initialycord;
         this.xPosition = initialXPosition;
         this.yPosition = initialYPosition;
     }
