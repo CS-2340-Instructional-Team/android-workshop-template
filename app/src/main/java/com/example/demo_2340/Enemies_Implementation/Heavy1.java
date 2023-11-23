@@ -16,36 +16,38 @@ public class Heavy1 implements Enemies, CollisionObserver {
         this.xPosition = initialXPosition;
         this.yPosition = initialYPosition;
     }
-  
-    private double randomMultiplier = 10.0;
-    private int rightBound = 7;
-    private int leftBound = 5;
-    private int upBound = 3;
+    private int movementMultiplier = 4;
+    private double randomMultiplier = 10.0 * movementMultiplier;
+    private int rightBound = 7 * movementMultiplier;
+    private int leftBound = 5 * movementMultiplier;
+    private int downBound = 3 * movementMultiplier;
   
     public String getType() {
         return type;
     }
 
     public double move() {
-        double movement = Math.random() * randomMultiplier;
-        String direc;
-        if (movement <= randomMultiplier && movement > rightBound) {
+        double randMovementAmount = Math.random() * randomMultiplier;
+        String direc = "";
+        if (randMovementAmount <= randomMultiplier && randMovementAmount > rightBound) {
             direc = "Right";
-        } else if (movement <= rightBound && movement > leftBound) {
+        } else if (randMovementAmount <= rightBound && randMovementAmount > leftBound) {
             direc = "Left";
-        } else if (movement <= leftBound && movement > upBound) {
-            direc = "Up";
-        } else {
+        } else if (randMovementAmount <= leftBound && randMovementAmount > downBound) {
             direc = "Down";
         }
 
-        // Always move to the right by a fixed amount
-        double rightwardMovement = 10.0;
-
-        xPosition += rightwardMovement;
+        // seperate actual movement from logic to aid with modificaitons
+        int movement = (int) randMovementAmount;
+        if (direc.equals("Right")) {
+            xPosition += movement;
+        } else if (direc.equals("Left")) {
+            xPosition -= movement;
+        } else if (direc.equals("Down")) {
+            yPosition += movement;
+        }
 
         return xPosition;
-
     }
 
 
