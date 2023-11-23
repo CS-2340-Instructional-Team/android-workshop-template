@@ -213,6 +213,7 @@ public class GameScreen1 extends AppCompatActivity {
         playerImageView.setY(initialY);
     }
 
+
     private void createEnemies() {
         //Sprite
         ImageView enemyImageView1 = findViewById(R.id.enemyImageView1);
