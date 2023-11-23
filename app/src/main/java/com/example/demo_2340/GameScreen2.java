@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -119,7 +120,6 @@ public class GameScreen2 extends AppCompatActivity {
         }
         return true;
     }
-
     private void movePlayer(int deltaX, int deltaY) {
         ImageView playerImageView = findViewById(R.id.playerImageView);
         int newX = player.getxPosition() + deltaX;
@@ -130,8 +130,8 @@ public class GameScreen2 extends AppCompatActivity {
             player.setxPosition(newX);
             playerImageView.setX((float) newX);
         }
-
-        if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
+        FrameLayout fr = findViewById(R.id.playerInfoView);
+        if (newY >= fr.getHeight() && newY <= rootView.getHeight() - playerImageView.getHeight()) {
             player.setyPosition(newY);
             playerImageView.setY((float) newY);
         }

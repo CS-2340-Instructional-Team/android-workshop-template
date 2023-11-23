@@ -77,7 +77,6 @@ public class GameScreen1 extends AppCompatActivity {
         movePlayer(1, 1);
     }
 
-
     private void startClockLoop() {
         // task to be executed by the clock loop
         Runnable clockRunnable = new Runnable() {
@@ -185,7 +184,6 @@ public class GameScreen1 extends AppCompatActivity {
         checkCollisions();
     }
 
-
     private void setdPADController() {
         Button buttonUp = findViewById(R.id.buttonUp);
         Button buttonDown = findViewById(R.id.buttonDown);
@@ -213,7 +211,6 @@ public class GameScreen1 extends AppCompatActivity {
         playerImageView.setX(initialX);
         playerImageView.setY(initialY);
     }
-
 
     private void createEnemies() {
         //Sprite
