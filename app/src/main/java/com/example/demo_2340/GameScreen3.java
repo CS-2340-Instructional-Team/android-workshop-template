@@ -70,9 +70,6 @@ public class GameScreen3 extends AppCompatActivity {
         moveEnemyHeavy();
         createExit();
         startClockLoop();
-
-        // Move the player after creating it
-        movePlayer(1, 1);
     }
 
     private void startClockLoop() {
@@ -110,7 +107,6 @@ public class GameScreen3 extends AppCompatActivity {
     }
 
     private boolean handleTouch(MotionEvent event, int deltaX, int deltaY) {
-        ImageView playerImageView = findViewById(R.id.playerImageView);
         int action = event.getAction();
         if (action == MotionEvent.ACTION_DOWN) {
             moveButtonPressed = true;
@@ -121,7 +117,6 @@ public class GameScreen3 extends AppCompatActivity {
         return true;
     }
     private void movePlayer(int deltaX, int deltaY) {
-        ImageView playerImageView = findViewById(R.id.playerImageView);
         int newX = player.getxPosition() + deltaX;
         int newY = player.getyPosition() + deltaY;
 
@@ -144,7 +139,6 @@ public class GameScreen3 extends AppCompatActivity {
         rootView.invalidate();
     }
     private void moveEnemySprite() {
-        ImageView enemyImageView1 = findViewById(R.id.enemyImageView1);
 
         double newX = spriteEnemy.move();
         double newY = spriteEnemy.getyPosition(); // No need to move in the y-direction
@@ -164,8 +158,6 @@ public class GameScreen3 extends AppCompatActivity {
 
 
     private void moveEnemyHeavy() {
-        ImageView enemyImageView2 = findViewById(R.id.enemyImageView2);
-
         double newX = heavyEnemy.move();
         double newY = heavyEnemy.getyPosition(); // No need to move in the y-direction
 
@@ -199,7 +191,6 @@ public class GameScreen3 extends AppCompatActivity {
     }
 
     private void createPlayer() {
-        ImageView playerImageView = findViewById(R.id.playerImageView);
         int initialX = (getResources().getDisplayMetrics().widthPixels
                 - playerImageView.getWidth()) / 2;
         int initialY = (getResources().getDisplayMetrics().heightPixels
@@ -212,13 +203,11 @@ public class GameScreen3 extends AppCompatActivity {
 
     private void createEnemies() {
         //Sprite
-        ImageView enemyImageView1 = findViewById(R.id.enemyImageView1);
         spriteEnemy.setInitialPosition(enemyImageView1.getX(),
                 (getResources().getDisplayMetrics().heightPixels
                         - playerImageView.getHeight()) / 5);
 
         //Heavy1
-        ImageView enemyImageView2 = findViewById(R.id.enemyImageView2);
         heavyEnemy.setInitialPosition(enemyImageView2.getX(),
                 (getResources().getDisplayMetrics().heightPixels
                         - playerImageView.getHeight()) / 2);
