@@ -1,7 +1,5 @@
 package com.example.demo_2340;
 
-
-
 public class Dot {
     private float x, y;
     private int radius;
@@ -20,7 +18,7 @@ public class Dot {
     }
 
     public boolean isExpired() {
-        // TODO Check if the dot has exceeded its max lifetime
+        return true;
     }
 
     public float getX() {
