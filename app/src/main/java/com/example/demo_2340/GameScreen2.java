@@ -66,8 +66,6 @@ public class GameScreen2 extends AppCompatActivity {
         inheritProperties();
         setdPADController();
         ScoreTimer.start();
-        moveEnemySprite();
-        moveEnemyHeavy();
         createExit();
         startClockLoop();
 
@@ -83,9 +81,9 @@ public class GameScreen2 extends AppCompatActivity {
                 if (!gameOverFlag) {
                     // Update the score
                     updateScore();
-
+                    int amount =  5;
                     // Move enemies
-                    moveEnemySprite();
+                    moveEnemySprite(4 * amount, 3 * amount);
                     moveEnemyHeavy();
                     checkGameOver();
 
@@ -141,7 +139,35 @@ public class GameScreen2 extends AppCompatActivity {
 
         rootView.invalidate();
     }
-    private void moveEnemySprite() {
+    private void moveEnemySprite(int deltaX, int deltaY) {
+
+        FrameLayout fr = findViewById(R.id.playerInfoView);
+
+        double newX = spriteEnemy.move();
+        double newY = spriteEnemy.getyPosition();
+
+        View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        if (newX > rootView.getWidth() - enemyImageView1.getWidth() || newX <= 0) {
+            deltaX *= -1; // Reverse the x-axis movement direction
+        }
+
+        if (newY > rootView.getHeight() - enemyImageView1.getHeight() || newY < 0) {
+            deltaY *= -1; // Reverse the y-axis movement direction
+        }
+
+        newX = spriteEnemy.getxPosition() + deltaX;
+        newY = spriteEnemy.getyPosition() + deltaY;
+
+        // Update the sprite's position
+        spriteEnemy.setxPosition(newX);
+        spriteEnemy.setyPosition(newY);
+
+        // Update the view's position
+        enemyImageView1.setX((float) newX);
+        enemyImageView1.setY((float) newY);
+
+        checkCollisions();
+        /**
 
         double newX = spriteEnemy.move();
         double newY = spriteEnemy.getyPosition(); // No need to move in the y-direction
@@ -157,6 +183,7 @@ public class GameScreen2 extends AppCompatActivity {
             spriteEnemy.setyPosition(newY);
         }
         checkCollisions();
+         **/
     }
 
 
@@ -206,7 +233,7 @@ public class GameScreen2 extends AppCompatActivity {
 
     private void createEnemies() {
         //Sprite
-        spriteEnemy.setInitialPosition(enemyImageView1.getX(),
+        spriteEnemy.setInitialPosition(700,
                 (getResources().getDisplayMetrics().heightPixels
                         - playerImageView.getHeight()) / 3);
 
