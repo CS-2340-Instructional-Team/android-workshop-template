@@ -167,16 +167,17 @@ public class GameScreen1 extends AppCompatActivity {
         enemyImageView1.setY((float) newY);
 
         checkCollisions();
+        /**
+        if (newX >= 0 && newX <= rootView.getWidth() - enemyImageView1.getWidth()) {
+            enemyImageView1.setX((float) newX);
+            spriteEnemy.setxPosition(newX);
+        }
 
-//        if (newX >= 0 && newX <= rootView.getWidth() - enemyImageView1.getWidth()) {
-//            enemyImageView1.setX((float) newX);
-//            spriteEnemy.setxPosition(newX);
-//        }
-//
-//        if (newY > fr.getHeight() && newY <= rootView.getHeight() - enemyImageView1.getHeight()) {
-//            enemyImageView1.setY((float) newY);
-//            spriteEnemy.setyPosition(newY);
-//        }
+        if (newY > fr.getHeight() && newY <= rootView.getHeight() - enemyImageView1.getHeight()) {
+            enemyImageView1.setY((float) newY);
+            spriteEnemy.setyPosition(newY);
+        }
+         **/
     }
 
 

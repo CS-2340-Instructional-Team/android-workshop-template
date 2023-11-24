@@ -80,7 +80,7 @@ public class GameScreen3 extends AppCompatActivity {
                     updateScore();
                     double amount = 0.75;
                     // Move enemies
-                    moveEnemySprite(20 * amount,50 * amount);
+                    moveEnemySprite(20 * amount, 50 * amount);
                     moveEnemyHeavy();
                     checkGameOver();
 
