@@ -1,6 +1,17 @@
 package com.example.demo_2340.Enemies_Implementation;
 
+import android.widget.FrameLayout;
+
+import com.example.demo_2340.CollisionObserver.CollisionManager;
 import com.example.demo_2340.CollisionObserver.CollisionObserver;
+import com.example.demo_2340.Player_Movement.MoveDown;
+import com.example.demo_2340.Player_Movement.MoveLeft;
+import com.example.demo_2340.Player_Movement.MoveRight;
+import com.example.demo_2340.Player_Movement.MoveUp;
+import com.example.demo_2340.Player_Movement.MovementStrategyPattern;
+import com.example.demo_2340.R;
+
+import java.util.Random;
 
 public class Sprite implements Enemies, CollisionObserver {
     private String type;
@@ -8,13 +19,11 @@ public class Sprite implements Enemies, CollisionObserver {
     private double initialYPosition;
     private double xPosition;
     private double yPosition;
-    private double initialxcord = 0;
-    private double initialycord = 0;
 
     public Sprite() {
         type = "Sprite";
-        this.initialXPosition = initialxcord;
-        this.initialYPosition = initialycord;
+        this.initialXPosition = 0;
+        this.initialYPosition = 0;
         this.xPosition = initialXPosition;
         this.yPosition = initialYPosition;
     }
@@ -26,10 +35,42 @@ public class Sprite implements Enemies, CollisionObserver {
 
     @Override
     public double move() {
-        // Always move to the right by a fixed amount
-        double rightwardMovement = 15.0;
+//        int movementAmount = 30;
+//        MovementStrategyPattern down = new MoveDown();
+//        MovementStrategyPattern up = new MoveUp();
+//        MovementStrategyPattern right = new MoveRight();
+//        MovementStrategyPattern left = new MoveLeft();
+//
+//        String [] xDirecArray = {"Right", "Left"};
+//        String[] yDirecArray = {"Up", "Down"};
+//
+//        int randMovementIndex = new Random().nextInt(xDirecArray.length);
+//        String xDirec = xDirecArray[1];
+//        String yDirec = yDirecArray[0];
+//
+//        switch (xDirec) {
+//            case "Right":
+//                xPosition += right.move(movementAmount);
+//            case "Left":
+//                xPosition += left.move(movementAmount);
+//        }
+//
+//        switch (yDirec) {
+//            case "Up":
+//                yPosition += up.move(movementAmount);
+//            case "Down":
+//                yPosition += down.move(movementAmount);
+//        }
 
-        yPosition += rightwardMovement;
+//        if (xDirec.equals("Right")) {
+//            xPosition += right.move(movementAmount);
+//        } else if (xDirec.equals("Left")) {
+//            xPosition += left.move(movementAmount);
+//        } else if (randMovementAmount <= leftBound && randMovementAmount > downBound) {
+//            direc = "Down";
+//        }
+
+        //yPosition -= 15;
 
         return yPosition;
     }
