@@ -97,6 +97,7 @@ public class GameScreen3 extends AppCompatActivity {
     private void updateScore() {
         // Update the score TextView
         TextView livescoreTextView = findViewById(R.id.livescoreTextView);
+        // Test double s = ScoreTimer.getInterval() - heavyEnemy.getDamage();
         livescoreTextView.setText("Score: " + ScoreTimer.getInterval());
 
         // Update the health TextView
