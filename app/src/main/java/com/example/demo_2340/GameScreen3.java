@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -65,13 +66,8 @@ public class GameScreen3 extends AppCompatActivity {
         inheritProperties();
         setdPADController();
         ScoreTimer.start();
-        moveEnemySprite();
-        moveEnemyHeavy();
         createExit();
         startClockLoop();
-
-        // Move the player after creating it
-        movePlayer(1, 1);
     }
 
     private void startClockLoop() {
@@ -82,9 +78,9 @@ public class GameScreen3 extends AppCompatActivity {
                 if (!gameOverFlag) {
                     // Update the score
                     updateScore();
-
+                    double amount = 0.75;
                     // Move enemies
-                    moveEnemySprite();
+                    moveEnemySprite(20 * amount, 50 * amount);
                     moveEnemyHeavy();
                     checkGameOver();
 
@@ -109,7 +105,6 @@ public class GameScreen3 extends AppCompatActivity {
     }
 
     private boolean handleTouch(MotionEvent event, int deltaX, int deltaY) {
-        ImageView playerImageView = findViewById(R.id.playerImageView);
         int action = event.getAction();
         if (action == MotionEvent.ACTION_DOWN) {
             moveButtonPressed = true;
@@ -119,9 +114,7 @@ public class GameScreen3 extends AppCompatActivity {
         }
         return true;
     }
-
     private void movePlayer(int deltaX, int deltaY) {
-        ImageView playerImageView = findViewById(R.id.playerImageView);
         int newX = player.getxPosition() + deltaX;
         int newY = player.getyPosition() + deltaY;
 
@@ -130,8 +123,8 @@ public class GameScreen3 extends AppCompatActivity {
             player.setxPosition(newX);
             playerImageView.setX((float) newX);
         }
-
-        if (newY >= 0 && newY <= rootView.getHeight() - playerImageView.getHeight()) {
+        FrameLayout fr = findViewById(R.id.playerInfoView);
+        if (newY >= fr.getHeight() && newY <= rootView.getHeight() - playerImageView.getHeight()) {
             player.setyPosition(newY);
             playerImageView.setY((float) newY);
         }
@@ -143,29 +136,38 @@ public class GameScreen3 extends AppCompatActivity {
 
         rootView.invalidate();
     }
-    private void moveEnemySprite() {
-        ImageView enemyImageView1 = findViewById(R.id.enemyImageView1);
+    private void moveEnemySprite(double deltaX, double deltaY) {
 
-        double newX = spriteEnemy.move();
-        double newY = spriteEnemy.getyPosition(); // No need to move in the y-direction
+        FrameLayout fr = findViewById(R.id.playerInfoView);
+
+        double newX = spriteEnemy.getxPosition();
+        double newY = spriteEnemy.getyPosition();
 
         View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
-        if (newX >= 0 && newX <= rootView.getWidth() - enemyImageView1.getWidth()) {
-            enemyImageView1.setX((float) newX);
-            spriteEnemy.setxPosition(newX);
+        if (newX > rootView.getWidth() - enemyImageView1.getWidth() || newX < 0) {
+            deltaX *= -1; // Reverse the x-axis movement direction
         }
 
-        if (newY >= 0 && newY <= rootView.getHeight() - enemyImageView1.getHeight()) {
-            enemyImageView1.setY((float) newY);
-            spriteEnemy.setyPosition(newY);
+        if (newY > rootView.getHeight() - enemyImageView1.getHeight() || newY < 0) {
+            deltaY *= -1; // Reverse the y-axis movement direction
         }
+
+        newX = spriteEnemy.getxPosition() + deltaX;
+        newY = spriteEnemy.getyPosition() + deltaY;
+
+        // Update the sprite's position
+        spriteEnemy.setxPosition(newX);
+        spriteEnemy.setyPosition(newY);
+
+        // Update the view's position
+        enemyImageView1.setX((float) newX);
+        enemyImageView1.setY((float) newY);
+
         checkCollisions();
     }
 
 
     private void moveEnemyHeavy() {
-        ImageView enemyImageView2 = findViewById(R.id.enemyImageView2);
-
         double newX = heavyEnemy.move();
         double newY = heavyEnemy.getyPosition(); // No need to move in the y-direction
 
@@ -199,7 +201,6 @@ public class GameScreen3 extends AppCompatActivity {
     }
 
     private void createPlayer() {
-        ImageView playerImageView = findViewById(R.id.playerImageView);
         int initialX = (getResources().getDisplayMetrics().widthPixels
                 - playerImageView.getWidth()) / 2;
         int initialY = (getResources().getDisplayMetrics().heightPixels
@@ -212,13 +213,11 @@ public class GameScreen3 extends AppCompatActivity {
 
     private void createEnemies() {
         //Sprite
-        ImageView enemyImageView1 = findViewById(R.id.enemyImageView1);
         spriteEnemy.setInitialPosition(enemyImageView1.getX(),
                 (getResources().getDisplayMetrics().heightPixels
                         - playerImageView.getHeight()) / 5);
 
         //Heavy1
-        ImageView enemyImageView2 = findViewById(R.id.enemyImageView2);
         heavyEnemy.setInitialPosition(enemyImageView2.getX(),
                 (getResources().getDisplayMetrics().heightPixels
                         - playerImageView.getHeight()) / 2);
