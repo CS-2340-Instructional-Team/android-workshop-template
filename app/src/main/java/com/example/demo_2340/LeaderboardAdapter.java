@@ -12,11 +12,6 @@ import java.util.List;
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
 
     private static LeaderboardAdapter instance;
-
-
-
-
-
     private List<LeaderboardItem> leaderboardData;
     private LeaderboardAdapter(List<LeaderboardItem> leaderboardData) {
         this.leaderboardData = leaderboardData;
