@@ -111,7 +111,7 @@ public class GameScreen2 extends AppCompatActivity {
         int action = event.getAction();
         if (action == MotionEvent.ACTION_DOWN) {
             moveButtonPressed = true;
-            movePlayer(deltaX, deltaY);
+            movePlayer(deltaX * player.getSpeed(), deltaY * player.getSpeed());
         } else if (action == MotionEvent.ACTION_UP) {
             moveButtonPressed = false;
         }

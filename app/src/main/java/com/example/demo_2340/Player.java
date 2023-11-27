@@ -10,11 +10,14 @@ public class Player implements CollisionObserver {
     private int yPosition;
     private int health;  // Added health variable
 
+    private int speed;
+
     private Player() {
         // Initialize default position and health
         this.xPosition = 0;
         this.yPosition = 0;
-        this.health = 100; // Set initial health value
+        this.health = 100; // Set initial health
+        this.speed = 1;
     }
 
     public static Player getInstance() {
@@ -64,6 +67,14 @@ public class Player implements CollisionObserver {
 
     public void setHealth(int h) {
         health = h;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
     private void endGame() {
 
