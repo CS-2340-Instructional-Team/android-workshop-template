@@ -79,7 +79,7 @@ public class GameActivity extends AppCompatActivity {
     // Handle key events to move the player
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO logic to move the player (remember to check collisions)
+        return true;
     }
 
     private void initializeDots() {

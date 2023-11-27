@@ -3,25 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/greek_blue"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".SelectDifficulty">
 
     <Button
         android:id="@+id/startButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="57dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="197dp"
-        android:background="@color/black"
-        android:backgroundTint="@android:color/black"
-        android:text="Start"
-        app:iconTint="#FFFFFF"
+        android:layout_width="114dp"
+        android:layout_height="66dp"
+        android:backgroundTint="@color/greek_white"
+        android:text="@string/start_button"
+        android:textColor="@color/greek_blue"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/difficultyRadioGroup" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.993"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView"
@@ -30,12 +30,11 @@
         android:layout_marginTop="88dp"
         android:layout_marginBottom="94dp"
         android:fontFamily="sans-serif-black"
-        android:shadowColor="#000000"
         android:shadowRadius="5"
-        android:text="Press Start"
+        android:text="@string/title_select_difficulty"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textColor="#EDD711"
+        android:textColor="@color/greek_gold"
         android:textSize="45sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/difficultyRadioGroup"
@@ -63,19 +62,24 @@
             android:id="@+id/radioEasy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
+            android:buttonTint="@color/greek_white"
+            android:textColor="@color/greek_white"
             android:text="Easy" />
 
         <RadioButton
             android:id="@+id/radioMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/greek_white"
+            android:textColor="@color/greek_white"
             android:text="Medium" />
 
         <RadioButton
             android:id="@+id/radioHard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/greek_white"
+            android:textColor="@color/greek_white"
             android:text="Hard" />
     </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>
