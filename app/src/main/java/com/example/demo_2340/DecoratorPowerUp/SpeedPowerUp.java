@@ -2,18 +2,18 @@ package com.example.demo_2340.DecoratorPowerUp;
 
 import com.example.demo_2340.Player;
 
-public class HealthPowerUp extends PowerUpDecorator {
-    public HealthPowerUp(PowerUp healthPower) {
+public class SpeedPowerUp extends PowerUpDecorator {
+    public SpeedPowerUp(PowerUp healthPower) {
         super(healthPower);
     }
 
     @Override
     public void powerUpHero(Player hero) {
         super.powerUpHero(hero);
-        healthPowerMethod(hero);
+        speedPowerMethod(hero);
     }
 
-    private void healthPowerMethod(Player hero) {
-        hero.setHealth(200);
+    private void speedPowerMethod(Player hero) {
+        hero.setSpeed(2);
     }
 }
