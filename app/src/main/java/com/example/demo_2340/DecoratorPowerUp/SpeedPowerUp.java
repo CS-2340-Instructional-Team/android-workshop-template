@@ -12,7 +12,7 @@ public class SpeedPowerUp extends PowerUpDecorator {
         super.powerUpHero(hero);
         speedPowerMethod(hero);
     }
-
+//testing
     private void speedPowerMethod(Player hero) {
         hero.setSpeed(2);
     }
