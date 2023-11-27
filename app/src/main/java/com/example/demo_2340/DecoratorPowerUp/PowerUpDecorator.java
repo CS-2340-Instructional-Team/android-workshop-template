@@ -9,7 +9,7 @@ public abstract class PowerUpDecorator implements PowerUp {
         this.powerUp = new PowerUpBase();
     }
 
-    public void powerUpHero(Player hero) {
+    public void PowerUpHero(Player hero) {
         this.powerUpHero(hero);
     }
 }
